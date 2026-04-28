@@ -93,22 +93,22 @@ export default function Footer() {
         </div>
 
         {/* Social links */}
-        <div className="flex items-center justify-between mb-4">
+        <div className="relative z-10 flex items-center justify-between mb-4">
           <a
-            href="https://linkedin.com"
+            href="https://www.linkedin.com/in/cristian-reyes7"
             target="_blank"
             rel="noopener noreferrer"
-            className="text-sm font-semibold text-[#0f0f0f] hover:text-[#555] transition-colors duration-150"
+            className="text-sm font-semibold text-[#0f0f0f] hover:text-[#555] hover:-translate-y-1 transition-all duration-200 ease-in-out"
           >
             [LinkedIn]
           </a>
           <a
-            href="https://instagram.com"
+            href="https://github.com/crisreyes-7"
             target="_blank"
             rel="noopener noreferrer"
-            className="text-sm font-semibold text-[#0f0f0f] hover:text-[#555] transition-colors duration-150"
+            className="text-sm font-semibold text-[#0f0f0f] hover:text-[#555] hover:-translate-y-1 transition-all duration-200 ease-in-out"
           >
-            [Instagram]
+            [GitHub]
           </a>
         </div>
 

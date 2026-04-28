@@ -122,7 +122,7 @@ export default function SVAECPage() {
       {/* ── Overview + sidebar ── */}
       <section className="px-6 pb-16">
         <div className="max-w-[760px] mx-auto">
-          <div className="grid grid-cols-1 lg:grid-cols-[1fr_240px] gap-8 items-start">
+          <div className="grid grid-cols-1 lg:grid-cols-[13fr_7fr] gap-8 items-start">
 
             {/* Left: main copy */}
             <div className="flex flex-col gap-8">
@@ -184,30 +184,32 @@ export default function SVAECPage() {
             {/* Right: sticky sidebar */}
             <div className="lg:sticky lg:top-20">
               <Card>
-                <CardSection>
+                <CardSection className="!py-5">
                   <p className="text-xs font-semibold text-[#888] mb-2">[Project type]</p>
                   <MetaPill>{cs.meta.type}</MetaPill>
                 </CardSection>
-                <CardSection>
+                <CardSection className="!py-5">
                   <p className="text-xs font-semibold text-[#888] mb-2">[My Role]</p>
                   <MetaPill>{cs.meta.role}</MetaPill>
                 </CardSection>
-                <CardSection>
+                <CardSection className="!py-5">
                   <p className="text-xs font-semibold text-[#888] mb-2">[Platforms]</p>
                   <MetaPill>{cs.meta.platforms}</MetaPill>
                 </CardSection>
-                <CardSection>
+                <CardSection className="!py-5">
                   <p className="text-xs font-semibold text-[#888] mb-2">[Timeline]</p>
                   <MetaPill>{cs.meta.timeline}</MetaPill>
                 </CardSection>
-                <CardSection>
+                <CardSection className="!py-5">
                   <p className="text-xs font-semibold text-[#888] mb-3">[Tools]</p>
                   <div className="flex gap-2 flex-wrap">
-                    {cs.meta.tools.map((tool) => (
+                    {cs.meta.tools.map((tool, i) => (
                       <div
                         key={tool.name}
                         title={tool.name}
-                        className="w-11 h-11 rounded-xl bg-[#f5f5f4] border border-[#e8e8e6] flex items-center justify-center overflow-hidden"
+                        className={`w-11 h-11 rounded-xl bg-[#f5f5f4] border border-[#e8e8e6] flex items-center justify-center overflow-hidden transition-transform duration-200 ease-out hover:scale-125 ${
+                          i < 2 ? "hover:rotate-[-12deg]" : "hover:rotate-[12deg]"
+                        }`}
                       >
                         {/* eslint-disable-next-line @next/next/no-img-element */}
                         <img src={tool.icon} alt={tool.name} className="w-7 h-7 object-contain" />
@@ -215,15 +217,6 @@ export default function SVAECPage() {
                     ))}
                   </div>
                 </CardSection>
-                <Link
-                  href="/cases"
-                  className="flex items-center justify-between bg-[#cce8f5] px-5 py-3 hover:bg-[#b8dff0] transition-colors duration-150 group"
-                >
-                  <span className="text-sm font-semibold text-[#0f0f0f]">All Cases</span>
-                  <span className="w-7 h-7 rounded-full bg-[#1e3a8a] flex items-center justify-center text-white text-xs flex-shrink-0 group-hover:bg-[#1e40af] transition-colors duration-150">
-                    →
-                  </span>
-                </Link>
               </Card>
             </div>
           </div>

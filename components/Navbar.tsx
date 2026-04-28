@@ -29,17 +29,17 @@ export default function Navbar() {
         <div className="relative flex flex-col items-end">
           <button
             onClick={() => setOpen((v) => !v)}
-            className="flex items-center gap-2 bg-[#1e3a8a] text-white text-sm font-semibold px-4 py-2 rounded-full transition-colors duration-200 hover:bg-[#cce8f5] hover:text-[#1e3a8a] group"
+            className="flex items-center gap-2 bg-[#cce8f5]/70 backdrop-blur-md text-[#0f0f0f] text-sm font-semibold px-4 py-2 rounded-xl border border-transparent hover:bg-[#1e3a8a] hover:text-white transition-colors duration-200 group"
             aria-label="Toggle navigation"
             aria-expanded={open}
           >
-            <span>Menu</span>
+            <span>[Menu]</span>
             {open ? (
               <span className="text-base leading-none">×</span>
             ) : (
               <span className="flex flex-col gap-[3px]" aria-hidden="true">
-                <span className="block w-3.5 h-[1.5px] bg-white group-hover:bg-[#1e3a8a] rounded-full transition-colors duration-200" />
-                <span className="block w-3.5 h-[1.5px] bg-white group-hover:bg-[#1e3a8a] rounded-full transition-colors duration-200" />
+                <span className="block w-3.5 h-[1.5px] bg-[#0f0f0f] group-hover:bg-white rounded-full transition-colors duration-200" />
+                <span className="block w-3.5 h-[1.5px] bg-[#0f0f0f] group-hover:bg-white rounded-full transition-colors duration-200" />
               </span>
             )}
           </button>
@@ -59,13 +59,13 @@ export default function Navbar() {
                     opacity: open ? 1 : 0,
                     pointerEvents: open ? "auto" : "none",
                   }}
-                  className={`text-sm font-semibold px-4 py-2 rounded-full whitespace-nowrap ${
+                  className={`text-sm font-semibold px-4 py-2 rounded-xl border whitespace-nowrap backdrop-blur-md transition-colors duration-200 ${
                     isActive
-                      ? "bg-[#1e3a8a] text-white"
-                      : "bg-[#cce8f5] text-[#3d4a6b] hover:bg-[#1e3a8a] hover:text-white"
+                      ? "bg-[#1e3a8a] text-white border-transparent"
+                      : "bg-[#cce8f5]/70 text-[#0f0f0f] border-transparent hover:bg-[#1e3a8a] hover:text-white"
                   }`}
                 >
-                  {link.label}
+                  [{link.label}]
                 </Link>
               );
             })}

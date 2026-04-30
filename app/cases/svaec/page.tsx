@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import Lightbox from "@/components/Lightbox";
 
 export const metadata = {
   title: "SVAEC — Cris Reyes",
@@ -112,7 +113,7 @@ export default function SVAECPage() {
           {/* Live site link */}
           <div className="flex justify-center">
             <a
-              href="[FILL IN: live site URL — e.g. https://svaec.org]"
+              href="https://svaec.org/schools-list/"
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center gap-1.5 text-sm font-medium text-[#0f0f0f] bg-[#cce8f5] hover:bg-[#1e3a8a] hover:text-white border border-transparent rounded-full px-4 py-1.5 transition-colors duration-200"
@@ -223,7 +224,7 @@ export default function SVAECPage() {
                 </CardSection>
                 <CardSection className="!py-5 overflow-visible">
                   <p className="text-xs font-semibold text-[#888] mb-3">[Tools]</p>
-                  <div className="flex gap-2 flex-wrap pb-8">
+                  <div className="flex gap-2 flex-wrap">
                     {cs.meta.tools.map((tool, i) => (
                       <div key={tool.name} className="relative group/tool flex flex-col items-center">
                         <div
@@ -234,7 +235,7 @@ export default function SVAECPage() {
                           {/* eslint-disable-next-line @next/next/no-img-element */}
                           <img src={tool.icon} alt={tool.name} className="w-full h-full object-cover" />
                         </div>
-                        <span className="absolute top-[calc(100%+15px)] left-1/2 -translate-x-1/2 whitespace-nowrap text-[10px] font-medium text-[#0f0f0f] bg-white border border-[#e8e8e6] rounded-lg px-2 py-1 opacity-0 group-hover/tool:opacity-100 transition-opacity duration-200 pointer-events-none">
+                        <span className="absolute top-[calc(100%+15px)] left-1/2 -translate-x-1/2 whitespace-nowrap text-xs font-medium text-[#0f0f0f] bg-white border border-[#e8e8e6] rounded-lg px-2 py-1 opacity-0 group-hover/tool:opacity-100 transition-opacity duration-200 pointer-events-none">
                           {tool.name}
                         </span>
                       </div>
@@ -348,12 +349,14 @@ export default function SVAECPage() {
               </p>
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                 <div className="rounded-xl border border-[#e8e8e6] overflow-hidden">
-                  <img src="/svaec/CPSV3ry4OfEUlTjxb7xw0abAI.svg" alt="Age Range chart" className="w-full h-auto" />
+                  <Lightbox src="/svaec/CPSV3ry4OfEUlTjxb7xw0abAI.svg" alt="Age Range chart" />
                 </div>
                 <div className="rounded-xl border border-[#e8e8e6] overflow-hidden">
-                  <img src="/svaec/3WzK9rWdss2hUH31Jf8Zr5qUk.svg" alt="Top Information Needs chart" className="w-full h-auto" />
+                  <Lightbox src="/svaec/3WzK9rWdss2hUH31Jf8Zr5qUk.svg" alt="Top Information Needs chart" />
                 </div>
-                <Placeholder label="Ease of Navigation chart — add asset" aspect="1/1" />
+                <div className="rounded-xl overflow-hidden border border-[#e8e8e6]">
+                  <Lightbox src="/svaec/easeofnav.svg" alt="Ease of navigation chart" />
+                </div>
               </div>
             </CardSection>
           </Card>
@@ -375,15 +378,8 @@ export default function SVAECPage() {
                   </li>
                 ))}
               </ul>
-              <div className="relative w-full rounded-xl overflow-hidden border border-[#e8e8e6]">
-                <Image
-                  src="/svaec/dBgzzdaMoBzeRlEVkswpFGn4o.png.webp"
-                  alt="Old homepage with annotated usability issues"
-                  width={1200}
-                  height={600}
-                  className="w-full h-auto"
-                  unoptimized
-                />
+              <div className="rounded-xl overflow-hidden border border-[#e8e8e6]">
+                <Lightbox src="/svaec/dBgzzdaMoBzeRlEVkswpFGn4o.png.webp" alt="Old homepage with annotated usability issues" />
               </div>
             </CardSection>
           </Card>
@@ -412,14 +408,7 @@ export default function SVAECPage() {
                 </div>
                 <div className="w-full sm:w-[45%] flex-shrink-0">
                   <div className="rounded-xl overflow-hidden border border-[#e8e8e6]">
-                    <Image
-                      src="/svaec/EkbhCf0W6tIhiTqrQ0WzqQ9YcY.png.webp"
-                      alt="Site map / information architecture"
-                      width={800}
-                      height={500}
-                      className="w-full h-auto"
-                      unoptimized
-                    />
+                    <Lightbox src="/svaec/EkbhCf0W6tIhiTqrQ0WzqQ9YcY.png.webp" alt="Site map / information architecture" />
                   </div>
                 </div>
               </div>
@@ -443,16 +432,11 @@ export default function SVAECPage() {
               </p>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div className="rounded-xl overflow-hidden border border-[#e8e8e6]">
-                  <Image
-                    src="/svaec/8O7qLFKxi568cvLZjKQyGvmk4gU.png.webp"
-                    alt="Style tiles set 1"
-                    width={800}
-                    height={600}
-                    className="w-full h-auto"
-                    unoptimized
-                  />
+                  <Lightbox src="/svaec/8O7qLFKxi568cvLZjKQyGvmk4gU.png.webp" alt="Style tiles set 1" />
                 </div>
-                <Placeholder label="Style tiles set 2 — add asset" aspect="4/3" />
+                <div className="rounded-xl overflow-hidden border border-[#e8e8e6] aspect-[4/3]">
+                  <Lightbox src="/svaec/exploration.webp" alt="Style tiles set 2" className="w-full h-full object-cover" />
+                </div>
               </div>
             </CardSection>
           </Card>
@@ -470,7 +454,9 @@ export default function SVAECPage() {
                     ultimately made the hi-fi phase much more efficient.</p>
                 </div>
                 <div className="w-full sm:w-[45%] flex-shrink-0">
-                  <Placeholder label="Wireframes + lo-fi — add asset" aspect="4/3" />
+                  <div className="rounded-xl overflow-hidden border border-[#e8e8e6]">
+                    <Lightbox src="/svaec/lofi.png.webp" alt="Wireframes and lo-fi designs" />
+                  </div>
                 </div>
               </div>
             </CardSection>
@@ -488,7 +474,9 @@ export default function SVAECPage() {
                     usability at the center.</p>
                 </div>
                 <div className="w-full sm:w-[45%] flex-shrink-0">
-                  <Placeholder label="Hi-fi annotated — add asset" aspect="4/3" />
+                  <div className="rounded-xl overflow-hidden border border-[#e8e8e6]">
+                    <Lightbox src="/svaec/hifi.png.webp" alt="Hi-fidelity annotated designs" />
+                  </div>
                 </div>
               </div>
             </CardSection>
@@ -538,16 +526,11 @@ export default function SVAECPage() {
                 The new site makes everything discoverable in just a few clicks.
               </p>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                <Placeholder label="Old Resource Page — add asset" aspect="4/3" />
                 <div className="rounded-xl overflow-hidden border border-[#e8e8e6]">
-                  <Image
-                    src="/svaec/gZoXYaOBzGuokGgkqq6DTeNPOB0.png.webp"
-                    alt="New resource page design"
-                    width={800}
-                    height={600}
-                    className="w-full h-auto"
-                    unoptimized
-                  />
+                  <Lightbox src="/svaec/oldresource.png.webp" alt="Old resource page" />
+                </div>
+                <div className="rounded-xl overflow-hidden border border-[#e8e8e6]">
+                  <Lightbox src="/svaec/gZoXYaOBzGuokGgkqq6DTeNPOB0.png.webp" alt="New resource page design" />
                 </div>
               </div>
             </CardSection>
@@ -566,27 +549,25 @@ export default function SVAECPage() {
                 navigate.
               </p>
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-                <div className="rounded-xl overflow-hidden border border-[#e8e8e6]">
-                  <Image
-                    src="/svaec/2BSj9aU0vnjRuuAfZZGkAa8lheE.png.webp"
-                    alt="Image card component"
-                    width={400}
-                    height={400}
-                    className="w-full h-auto"
-                    unoptimized
-                  />
+                <div className="group/comp flex items-center justify-center p-1">
+                  <div className="rounded-[4px] overflow-visible w-full transition-transform duration-200 ease-out group-hover/comp:scale-110 group-hover/comp:-rotate-[4deg]">
+                    <Lightbox src="/svaec/component1.png.webp" alt="Component 1" className="w-full h-auto rounded-[4px]" />
+                  </div>
                 </div>
-                <Placeholder label="Component 2 — add asset" aspect="1/1" />
-                <Placeholder label="Component 3 — add asset" aspect="1/1" />
-                <div className="rounded-xl overflow-hidden border border-[#e8e8e6]">
-                  <Image
-                    src="/svaec/c2iaPMo6XSAGMawqvuBmYPeJnY.png.webp"
-                    alt="School name card component"
-                    width={400}
-                    height={400}
-                    className="w-full h-auto"
-                    unoptimized
-                  />
+                <div className="group/comp flex items-center justify-center p-1">
+                  <div className="rounded-[4px] overflow-visible w-full transition-transform duration-200 ease-out group-hover/comp:scale-110 group-hover/comp:rotate-[4deg]">
+                    <Lightbox src="/svaec/component2.png.webp" alt="Component 2" className="w-full h-auto rounded-[4px]" />
+                  </div>
+                </div>
+                <div className="group/comp flex items-center justify-center p-1">
+                  <div className="rounded-[4px] overflow-visible w-full transition-transform duration-200 ease-out group-hover/comp:scale-110 group-hover/comp:-rotate-[4deg]">
+                    <Lightbox src="/svaec/component3.png.webp" alt="Component 3" className="w-full h-auto rounded-[4px]" />
+                  </div>
+                </div>
+                <div className="group/comp flex items-center justify-center p-1">
+                  <div className="rounded-[4px] overflow-visible w-full transition-transform duration-200 ease-out group-hover/comp:scale-110 group-hover/comp:rotate-[4deg]">
+                    <Lightbox src="/svaec/component4.png.webp" alt="Component 4" className="w-full h-auto rounded-[4px]" />
+                  </div>
                 </div>
               </div>
             </CardSection>
@@ -633,16 +614,11 @@ export default function SVAECPage() {
                 </p>
               </div>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                <Placeholder label="Final desktop design — add asset" aspect="4/3" />
-                <div className="rounded-xl overflow-hidden border border-[#e8e8e6]">
-                  <Image
-                    src="/svaec/4U6glb2LIrf35UJ67gHcYhWUto.png.webp"
-                    alt="Final mobile design"
-                    width={400}
-                    height={700}
-                    className="w-full h-auto"
-                    unoptimized
-                  />
+                <div className="rounded-xl overflow-hidden border border-[#e8e8e6] aspect-[4/3]">
+                  <Lightbox src="/svaec/impactinaction1.png.webp" alt="Impact in action — desktop" className="w-full h-full object-cover object-top" />
+                </div>
+                <div className="rounded-xl overflow-hidden border border-[#e8e8e6] aspect-[4/3]">
+                  <Lightbox src="/svaec/impactinaction2.png.webp" alt="Impact in action — mobile" className="w-full h-full object-cover object-top" />
                 </div>
               </div>
             </CardSection>

@@ -3,15 +3,28 @@ import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
-const cases = [
+type Case = {
+  href: string;
+  image: string;
+  category: string;
+  title: string;
+  description: string;
+  tags: string[];
+  date: string;
+  stats: { replies: string; reposts: string; likes: string; views: string };
+};
+
+const cases: Case[] = [
   {
     href: "/cases/svaec",
     image: "https://framerusercontent.com/images/iF4cd4YieKCtECojDL4qMFzeoJ0.png",
     category: "Web/UX Design",
     title: "Salinas Valley Adult Education Consortium",
     description:
-      "When we first looked at the SVAEC website, it was clear the information people needed was technically there, but almost impossible to actually find.",
-    tags: ["Web Design", "UX Research", "Education"],
+      "When we first looked at the SVAEC website, it was clear the information people needed was technically there, but almost impossible to actually find. So we redesigned it.",
+    tags: ["WebDesign", "UXResearch", "Education"],
+    date: "Mar 2024",
+    stats: { replies: "12", reposts: "48", likes: "284", views: "5.2K" },
   },
 ];
 
@@ -20,68 +33,164 @@ export const metadata = {
   description: "Selected design and UX work by Cris Reyes.",
 };
 
+function CheckBadge() {
+  return (
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-label="Verified">
+      <circle cx="12" cy="12" r="12" fill="#1D9BF0" />
+      <path d="M9.5 16.5L5.5 12.5L6.91 11.09L9.5 13.67L17.09 6.08L18.5 7.5L9.5 16.5Z" fill="white" />
+    </svg>
+  );
+}
+
+function StatIcon({ type }: { type: "reply" | "repost" | "like" | "view" }) {
+  const icons = {
+    reply: (
+      <path d="M12 21l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.18L12 21z" fill="none" stroke="currentColor" strokeWidth="2" />
+    ),
+    repost: (
+      <path d="M17 1l4 4-4 4M3 11V9a4 4 0 014-4h14M7 23l-4-4 4-4M21 13v2a4 4 0 01-4 4H3" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+    ),
+    like: (
+      <path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z" fill="none" stroke="currentColor" strokeWidth="2" />
+    ),
+    view: (
+      <path d="M3 3v18h18M7 14l4-4 4 4 5-5" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+    ),
+  };
+  return (
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      {icons[type]}
+    </svg>
+  );
+}
+
+function CaseTweet({ c }: { c: Case }) {
+  return (
+    <Link
+      href={c.href}
+      className="group block px-7 py-6 hover:bg-[#f7f9fa] transition-colors duration-150 border-b border-[#e8e8e6] last:border-b-0"
+    >
+      <div>
+        {/* Header line */}
+        <div className="flex items-center gap-1 text-[15px] flex-wrap mb-1">
+          <span className="font-bold text-[#0f0f0f] truncate">Cris Reyes</span>
+          <CheckBadge />
+          <span className="text-[#536471]">@crisreyes</span>
+          <span className="text-[#536471]">·</span>
+          <span className="text-[#536471]">{c.date}</span>
+        </div>
+
+        {/* Category tag */}
+        <p className="text-xs font-medium text-[#1D9BF0] mb-3">{c.category}</p>
+
+        {/* Avatar + Title row — avatar centered with title */}
+        <div className="flex items-center gap-3 mb-2">
+          <div className="flex-shrink-0">
+            <div className="w-12 h-12 rounded-full overflow-hidden border border-[#e8e8e6]">
+              <Image
+                src="https://framerusercontent.com/images/l7C4iE4BN6f4m1NhoOvRjV4DA.png"
+                alt="Cris Reyes avatar"
+                width={48}
+                height={48}
+                className="w-full h-full object-cover object-top"
+                unoptimized
+              />
+            </div>
+          </div>
+          <h2 className="font-bold text-[#0f0f0f] text-lg leading-snug tracking-tight flex-1 min-w-0">
+            {c.title}
+          </h2>
+        </div>
+
+        <div>
+          <p className="text-[15px] text-[#0f0f0f] leading-relaxed mb-3">
+            {c.description}{" "}
+            {c.tags.map((tag) => (
+              <span key={tag} className="text-[#1D9BF0] hover:underline">
+                #{tag}{" "}
+              </span>
+            ))}
+          </p>
+
+          {/* Image */}
+          <div className="relative w-full overflow-hidden rounded-2xl border border-[#e8e8e6] mb-3" style={{ aspectRatio: "16 / 9" }}>
+            <Image
+              src={c.image}
+              alt={`${c.title} project cover`}
+              fill
+              sizes="(max-width: 768px) 100vw, 600px"
+              className="object-cover group-hover:scale-[1.02] transition-transform duration-500 ease-out"
+              unoptimized
+            />
+          </div>
+
+          {/* Stats row */}
+          <div className="flex items-center justify-between text-[#536471] max-w-md">
+            <div className="flex items-center gap-1.5 text-[13px] group-hover:text-[#1D9BF0] transition-colors duration-150">
+              <StatIcon type="reply" />
+              <span>{c.stats.replies}</span>
+            </div>
+            <div className="flex items-center gap-1.5 text-[13px] group-hover:text-[#00BA7C] transition-colors duration-150">
+              <StatIcon type="repost" />
+              <span>{c.stats.reposts}</span>
+            </div>
+            <div className="flex items-center gap-1.5 text-[13px] group-hover:text-[#F91880] transition-colors duration-150">
+              <StatIcon type="like" />
+              <span>{c.stats.likes}</span>
+            </div>
+            <div className="flex items-center gap-1.5 text-[13px] group-hover:text-[#1D9BF0] transition-colors duration-150">
+              <StatIcon type="view" />
+              <span>{c.stats.views}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </Link>
+  );
+}
+
 export default function CasesPage() {
   return (
     <main className="bg-white text-[#0f0f0f] overflow-x-hidden">
       <Navbar />
 
-      <section className="pt-40 pb-16 px-6">
-        <div className="max-w-[760px] mx-auto">
-          <span className="block text-sm font-medium text-[#888] tracking-widest uppercase mb-6">
-            [Cases]
-          </span>
-          <h1
-            className="font-display font-bold tracking-[-0.03em] text-[#0f0f0f] leading-none max-w-2xl"
-            style={{ fontSize: "clamp(2.5rem, 6vw, 4.5rem)" }}
-          >
+      {/* Page label */}
+      <section className="pt-28 pb-8 px-6">
+        <div className="max-w-[760px] mx-auto flex justify-center">
+          <span className="text-sm font-medium text-[#0f0f0f]">[Cases]</span>
+        </div>
+      </section>
+
+      {/* Header */}
+      <section className="pb-8 px-6">
+        <div className="max-w-[600px] mx-auto">
+          <h1 className="font-bold tracking-[-0.02em] text-[#0f0f0f] leading-tight text-[clamp(1.75rem,4vw,2.5rem)]">
             Work that opens doors.
           </h1>
-          <p className="mt-5 text-[#666] text-[1.0625rem] leading-relaxed max-w-xl">
+          <p className="mt-3 text-[#536471] text-[15px] leading-relaxed">
             A collection of projects focused on accessibility, usability, and visual clarity.
           </p>
         </div>
       </section>
 
-      <section className="py-16 px-6 border-t border-[#e8e8e6]">
-        <div className="max-w-[760px] mx-auto">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      {/* Timeline */}
+      <section className="pb-16 px-6">
+        <div className="max-w-[600px] mx-auto rounded-2xl border border-[#e8e8e6] overflow-hidden bg-white">
+          {/* Sticky tab header (Twitter-style "For you") */}
+          <div className="px-7 py-4 border-b border-[#e8e8e6] bg-white/80 backdrop-blur-md">
+            <p className="font-bold text-base text-[#0f0f0f]">Latest Work</p>
+          </div>
+
+          {/* Feed */}
+          <div className="flex flex-col">
             {cases.map((c) => (
-              <Link
-                key={c.href}
-                href={c.href}
-                className="group block rounded-2xl overflow-hidden bg-[#f5f5f4] hover:-translate-y-1 hover:shadow-[0_20px_60px_-12px_rgba(0,0,0,0.12)] transition-all duration-300 ease-out"
-              >
-                <div className="relative w-full overflow-hidden" style={{ aspectRatio: "16 / 9" }}>
-                  <Image
-                    src={c.image}
-                    alt={`${c.title} project cover`}
-                    fill
-                    sizes="(max-width: 768px) 100vw, 50vw"
-                    className="object-cover group-hover:scale-[1.03] transition-transform duration-500 ease-out"
-                    unoptimized
-                  />
-                  <div className="absolute top-4 left-4">
-                    <span className="inline-block bg-white/90 backdrop-blur-sm text-xs font-medium text-[#555] rounded-full px-3 py-1 tracking-wide">
-                      {c.category}
-                    </span>
-                  </div>
-                </div>
-                <div className="p-6 md:p-8">
-                  <h2 className="font-display font-bold text-xl md:text-2xl text-[#0f0f0f] leading-snug tracking-[-0.02em]">
-                    {c.title}
-                  </h2>
-                  <p className="mt-3 text-[#666] text-sm leading-relaxed">{c.description}</p>
-                  <div className="mt-5 flex items-center gap-0 text-xs text-[#aaa] font-medium">
-                    {c.tags.map((tag, i) => (
-                      <span key={tag} className="flex items-center gap-0">
-                        <span>{tag}</span>
-                        {i < c.tags.length - 1 && <span className="mx-2 opacity-50">·</span>}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-              </Link>
+              <CaseTweet key={c.href} c={c} />
             ))}
+
+            {/* End of feed marker */}
+            <div className="px-7 py-10 text-center text-sm text-[#536471]">
+              You&rsquo;re all caught up · more cases coming soon
+            </div>
           </div>
         </div>
       </section>

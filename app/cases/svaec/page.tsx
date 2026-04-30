@@ -98,7 +98,28 @@ export default function SVAECPage() {
           <h1 className="text-center font-bold text-[clamp(2rem,6vw,3.25rem)] leading-tight tracking-tight text-[#0f0f0f] mb-3">
             {cs.title}
           </h1>
-          <p className="text-center text-[#888] text-base">{cs.category}</p>
+          <p className="text-center text-[#888] text-base mb-6">{cs.category}</p>
+
+          {/* Hero stat strip — quick scannable facts */}
+          <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-2 mb-6 text-sm text-[#555]">
+            <span>[FILL IN: e.g. 3-month redesign]</span>
+            <span className="text-[#d0d0ce]">·</span>
+            <span>[FILL IN: e.g. 58 learners surveyed]</span>
+            <span className="text-[#d0d0ce]">·</span>
+            <span>[FILL IN: e.g. 4 partner schools]</span>
+          </div>
+
+          {/* Live site link */}
+          <div className="flex justify-center">
+            <a
+              href="[FILL IN: live site URL — e.g. https://svaec.org]"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1.5 text-sm font-medium text-[#0f0f0f] bg-[#cce8f5] hover:bg-[#1e3a8a] hover:text-white border border-transparent rounded-full px-4 py-1.5 transition-colors duration-200"
+            >
+              View live site ↗
+            </a>
+          </div>
         </div>
       </section>
 
@@ -578,6 +599,22 @@ export default function SVAECPage() {
         <div className="max-w-[760px] mx-auto">
           <SectionLabel>[Results]</SectionLabel>
           <Card>
+            {/* Metrics row — top of the card for quick scanning */}
+            <CardSection>
+              <p className="text-xs font-semibold text-[#888] mb-4">[Outcomes]</p>
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                {[
+                  { stat: "[FILL IN: e.g. 85%]", label: "[FILL IN: metric label — e.g. task completion rate]" },
+                  { stat: "[FILL IN: e.g. 3 → 1]", label: "[FILL IN: metric label — e.g. clicks to enrollment]" },
+                  { stat: "[FILL IN: e.g. 4.6/5]", label: "[FILL IN: metric label — e.g. learner satisfaction]" },
+                ].map((m, i) => (
+                  <div key={i} className="rounded-xl bg-[#f5f5f4] border border-[#e8e8e6] p-4">
+                    <p className="font-bold text-2xl text-[#1e3a8a] leading-tight mb-1">{m.stat}</p>
+                    <p className="text-xs text-[#555] leading-snug">{m.label}</p>
+                  </div>
+                ))}
+              </div>
+            </CardSection>
             <CardSection>
               <p className="font-bold text-base text-[#0f0f0f] mb-3">Impact in Action</p>
               <div className="flex flex-col gap-3 text-sm text-[#555] leading-relaxed mb-6">
@@ -608,6 +645,33 @@ export default function SVAECPage() {
                   />
                 </div>
               </div>
+            </CardSection>
+          </Card>
+        </div>
+      </section>
+
+      {/* ── Reflections ── */}
+      <section className="px-6 pb-16">
+        <div className="max-w-[760px] mx-auto">
+          <SectionLabel>[Reflections]</SectionLabel>
+          <Card>
+            <CardSection>
+              <p className="font-bold text-base text-[#0f0f0f] mb-3">What I Learned</p>
+              <p className="text-sm text-[#555] leading-relaxed mb-4">
+                [FILL IN: 1–2 sentence intro about what this project taught you as a designer.]
+              </p>
+              <ul className="flex flex-col gap-3 text-sm text-[#555] leading-relaxed">
+                {[
+                  ["[FILL IN: lesson 1 title]", "[FILL IN: 1–2 sentences on what you learned and how it shaped your approach.]"],
+                  ["[FILL IN: lesson 2 title]", "[FILL IN: 1–2 sentences on what you learned and how it shaped your approach.]"],
+                  ["[FILL IN: lesson 3 title — e.g. 'What I'd do differently']", "[FILL IN: 1–2 sentences on what you'd change with hindsight.]"],
+                ].map(([bold, rest]) => (
+                  <li key={bold} className="flex items-start gap-2">
+                    <span className="mt-1.5 w-1.5 h-1.5 rounded-full bg-[#0f0f0f] flex-shrink-0" />
+                    <span><strong className="text-[#0f0f0f]">{bold}</strong> {rest}</span>
+                  </li>
+                ))}
+              </ul>
             </CardSection>
           </Card>
         </div>

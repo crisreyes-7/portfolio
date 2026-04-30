@@ -15,7 +15,7 @@ export default function About() {
 
             {/* Left: photo + marquee overlay */}
             <div className="w-full sm:w-[45%] flex-shrink-0">
-              <div className="relative rounded-xl overflow-hidden" style={{ minHeight: "466px" }}>
+              <div className="relative rounded-xl overflow-hidden min-h-[360px] sm:min-h-[466px]">
                 <Image
                   src="https://framerusercontent.com/images/KArwdjFBUNCFO05OGNUXhQCnzw.jpg"
                   alt="Photo of Cris Reyes"

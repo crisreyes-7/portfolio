@@ -14,7 +14,7 @@ export default function AboutPage() {
       <Navbar />
 
       {/* Page label */}
-      <section className="py-[100px] px-6">
+      <section className="pt-28 pb-12 sm:py-[100px] px-6">
         <div className="max-w-[760px] mx-auto flex justify-center">
           <span className="text-sm font-medium text-[#0f0f0f]">[About]</span>
         </div>
@@ -103,9 +103,7 @@ export default function AboutPage() {
           <ExperienceAccordion />
         </div>
       </section>
-
-
-<Footer />
+      <Footer />
     </main>
   );
 }

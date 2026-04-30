@@ -18,7 +18,7 @@ export default function Cases() {
           {/* Inner card: image + content */}
           <Link href="/cases/svaec" className="group bg-white rounded-xl border border-[#e8e8e6] p-3 flex flex-col sm:flex-row gap-3">
             {/* Image with [view project] overlay */}
-            <div className="relative w-full sm:w-[50%] flex-shrink-0 rounded-xl overflow-hidden bg-[#e8e8e6]" style={{ minHeight: "340px" }}>
+            <div className="relative w-full sm:w-[50%] flex-shrink-0 rounded-xl overflow-hidden bg-[#e8e8e6] aspect-[4/3] sm:aspect-auto sm:min-h-[340px]">
               <Image
                 src="https://framerusercontent.com/images/iF4cd4YieKCtECojDL4qMFzeoJ0.png"
                 alt="Salinas Valley Adult Education Consortium project"

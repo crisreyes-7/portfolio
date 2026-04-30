@@ -23,10 +23,10 @@ const cs = {
     platforms: "Desktop and Android",
     timeline: "January 2024 – March 2024",
     tools: [
-      { name: "Figma",     icon: "/icons/figma.svg" },
-      { name: "Adobe CC",  icon: "/icons/adobe.svg" },
-      { name: "WordPress", icon: "/icons/wordpress.svg" },
-      { name: "Asana",     icon: "/icons/asana.svg" },
+      { name: "Figma",     icon: "/icons/Figmaicon.png" },
+      { name: "Adobe Suite",  icon: "/icons/AdobeCCicon.png" },
+      { name: "WordPress", icon: "/icons/Wordpressicon.png" },
+      { name: "Asana",     icon: "/icons/asanaicon.png" },
     ],
   },
 };
@@ -68,7 +68,7 @@ function Placeholder({ label, aspect }: { label: string; aspect: string }) {
 
 function MetaPill({ children }: { children: React.ReactNode }) {
   return (
-    <span className="inline-block border border-[#d0d0ce] rounded-full px-3 py-1 text-sm text-[#0f0f0f]">
+    <span className="inline-block border border-[#d0d0ce] rounded-full px-3 py-1 text-sm text-[#0f0f0f] max-w-full break-words">
       {children}
     </span>
   );
@@ -183,7 +183,7 @@ export default function SVAECPage() {
 
             {/* Right: sticky sidebar */}
             <div className="lg:sticky lg:top-20">
-              <Card>
+              <Card className="!overflow-visible">
                 <CardSection className="!py-5">
                   <p className="text-xs font-semibold text-[#888] mb-2">[Project type]</p>
                   <MetaPill>{cs.meta.type}</MetaPill>
@@ -200,19 +200,22 @@ export default function SVAECPage() {
                   <p className="text-xs font-semibold text-[#888] mb-2">[Timeline]</p>
                   <MetaPill>{cs.meta.timeline}</MetaPill>
                 </CardSection>
-                <CardSection className="!py-5">
+                <CardSection className="!py-5 overflow-visible">
                   <p className="text-xs font-semibold text-[#888] mb-3">[Tools]</p>
-                  <div className="flex gap-2 flex-wrap">
+                  <div className="flex gap-2 flex-wrap pb-8">
                     {cs.meta.tools.map((tool, i) => (
-                      <div
-                        key={tool.name}
-                        title={tool.name}
-                        className={`w-11 h-11 rounded-xl bg-[#f5f5f4] border border-[#e8e8e6] flex items-center justify-center overflow-hidden transition-transform duration-200 ease-out hover:scale-125 ${
-                          i < 2 ? "hover:rotate-[-12deg]" : "hover:rotate-[12deg]"
-                        }`}
-                      >
-                        {/* eslint-disable-next-line @next/next/no-img-element */}
-                        <img src={tool.icon} alt={tool.name} className="w-7 h-7 object-contain" />
+                      <div key={tool.name} className="relative group/tool flex flex-col items-center">
+                        <div
+                          className={`w-11 h-11 rounded-xl bg-[#f5f5f4] border border-[#e8e8e6] flex items-center justify-center overflow-hidden transition-transform duration-200 ease-out group-hover/tool:scale-125 ${
+                            i < 2 ? "group-hover/tool:rotate-[-12deg]" : "group-hover/tool:rotate-[12deg]"
+                          }`}
+                        >
+                          {/* eslint-disable-next-line @next/next/no-img-element */}
+                          <img src={tool.icon} alt={tool.name} className="w-full h-full object-cover" />
+                        </div>
+                        <span className="absolute top-[calc(100%+15px)] left-1/2 -translate-x-1/2 whitespace-nowrap text-[10px] font-medium text-[#0f0f0f] bg-white border border-[#e8e8e6] rounded-lg px-2 py-1 opacity-0 group-hover/tool:opacity-100 transition-opacity duration-200 pointer-events-none">
+                          {tool.name}
+                        </span>
                       </div>
                     ))}
                   </div>

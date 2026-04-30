@@ -83,16 +83,16 @@ export default function ExperienceAccordion() {
             }`}
           >
             {/* Header — always visible */}
-            <div className="px-6 h-[80px] flex flex-wrap items-center gap-x-6 gap-y-2">
+            <div className="px-5 sm:px-6 py-5 flex flex-col md:flex-row md:items-center gap-3 md:gap-x-6 md:gap-y-2">
               <p
-                className={`font-bold text-lg w-[160px] flex-shrink-0 whitespace-pre-line transition-colors duration-300 ${
+                className={`font-bold text-lg md:w-[160px] md:flex-shrink-0 whitespace-pre-line transition-colors duration-300 ${
                   isOpen ? "text-white" : "text-[#0f0f0f] group-hover:text-white"
                 }`}
               >
-                {entry.org}
+                {entry.org.replace("\n", " ")}
               </p>
               <p
-                className={`text-sm flex-1 transition-colors duration-300 ${
+                className={`text-sm md:flex-1 transition-colors duration-300 ${
                   isOpen ? "text-[#cce8f5]" : "text-[#555] group-hover:text-[#cce8f5]"
                 }`}
               >
@@ -110,7 +110,7 @@ export default function ExperienceAccordion() {
               style={{ gridTemplateRows: isOpen ? "1fr" : "0fr" }}
             >
               <div className="overflow-hidden">
-                <div className="px-6 pb-6 pt-1 border-t border-[#2d4fa0]">
+                <div className="px-5 sm:px-6 pb-6 pt-1 border-t border-[#2d4fa0]">
                   <ul className="flex flex-col divide-y divide-[#2d4fa0] mt-3">
                     {entry.bullets.map((b) => (
                       <li key={b} className="flex items-start gap-3 py-3 first:pt-0 last:pb-0">

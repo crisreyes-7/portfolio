@@ -56,7 +56,7 @@ function CheckBadge() {
 function StatIcon({ type }: { type: "reply" | "repost" | "like" | "view" }) {
   const icons = {
     reply: (
-      <path d="M12 21l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.18L12 21z" fill="none" stroke="currentColor" strokeWidth="2" />
+      <path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
     ),
     repost: (
       <path d="M17 1l4 4-4 4M3 11V9a4 4 0 014-4h14M7 23l-4-4 4-4M21 13v2a4 4 0 01-4 4H3" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
@@ -97,13 +97,13 @@ function CaseTweet({ c }: { c: Case }) {
         {/* Avatar + Title row — avatar centered with title */}
         <div className="flex items-center gap-3 mb-2">
           <div className="flex-shrink-0">
-            <div className="w-12 h-12 rounded-full overflow-hidden border border-[#e8e8e6]">
+            <div className="w-12 h-12 rounded-full overflow-hidden border border-[#e8e8e6] bg-white">
               <Image
                 src="https://framerusercontent.com/images/l7C4iE4BN6f4m1NhoOvRjV4DA.png"
                 alt="Cris Reyes avatar"
                 width={48}
                 height={48}
-                className="w-full h-full object-cover object-top"
+                className="w-full h-full object-cover object-center"
                 unoptimized
               />
             </div>

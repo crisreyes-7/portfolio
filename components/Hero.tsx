@@ -61,13 +61,13 @@ export default function Hero() {
           {/* Avatar row */}
           <div className="mb-5">
             <div className="relative inline-block">
-              <div className="w-14 h-14 rounded-xl overflow-hidden border border-[#e8e8e6]">
+              <div className="w-14 h-14 rounded-xl overflow-hidden border border-[#e8e8e6] bg-white flex items-center justify-center p-1">
                 <Image
                   src="https://framerusercontent.com/images/l7C4iE4BN6f4m1NhoOvRjV4DA.png"
                   alt="Cris Reyes avatar"
                   width={56}
                   height={56}
-                  className="w-full h-full object-cover object-top"
+                  className="max-w-full max-h-full w-auto h-auto object-contain"
                   priority
                   unoptimized
                 />

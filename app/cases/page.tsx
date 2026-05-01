@@ -97,13 +97,13 @@ function CaseTweet({ c }: { c: Case }) {
         {/* Avatar + Title row — avatar centered with title */}
         <div className="flex items-center gap-3 mb-2">
           <div className="flex-shrink-0">
-            <div className="w-12 h-12 rounded-full overflow-hidden border border-[#e8e8e6] bg-white">
+            <div className="w-12 h-12 rounded-xl overflow-hidden border border-[#e8e8e6] bg-white flex items-center justify-center p-1">
               <Image
                 src="https://framerusercontent.com/images/l7C4iE4BN6f4m1NhoOvRjV4DA.png"
                 alt="Cris Reyes avatar"
                 width={48}
                 height={48}
-                className="w-full h-full object-cover object-center"
+                className="max-w-full max-h-full w-auto h-auto object-contain"
                 unoptimized
               />
             </div>
@@ -174,7 +174,7 @@ export default function CasesPage() {
 
       {/* Header */}
       <section className="pb-8 px-6">
-        <div className="max-w-[600px] mx-auto">
+        <div className="max-w-[600px] mx-auto text-center">
           <h1 className="font-bold tracking-[-0.02em] text-[#0f0f0f] leading-tight text-[clamp(1.75rem,4vw,2.5rem)]">
             Work that opens doors.
           </h1>
@@ -194,9 +194,11 @@ export default function CasesPage() {
 
           {/* Feed */}
           <div className="flex flex-col">
-            {cases.map((c) => (
-              <CaseTweet key={c.href} c={c} />
-            ))}
+            {[...cases]
+              .sort((a, b) => +new Date(`1 ${b.date}`) - +new Date(`1 ${a.date}`))
+              .map((c) => (
+                <CaseTweet key={c.href} c={c} />
+              ))}
 
             {/* End of feed marker */}
             <div className="px-7 py-10 text-center text-sm text-[#536471]">

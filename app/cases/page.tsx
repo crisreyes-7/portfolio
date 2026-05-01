@@ -26,6 +26,17 @@ const cases: Case[] = [
     date: "Mar 2024",
     stats: { replies: "12", reposts: "48", likes: "284", views: "5.2K" },
   },
+  {
+    href: "/cases/adobe-video-series",
+    image: "/adobe/hero.png.webp",
+    category: "Content Design / Video Production",
+    title: "Adobe Express Tutorial Series",
+    description:
+      "Adobe needed nonprofits to actually use Express — so we made tutorials that felt like a coworker showing you the ropes, not a manual. 9 videos, 11K views, and a door that kept opening.",
+    tags: ["ContentDesign", "VideoProduction", "UXResearch"],
+    date: "Aug 2024",
+    stats: { replies: "8", reposts: "31", likes: "197", views: "11K" },
+  },
 ];
 
 export const metadata = {

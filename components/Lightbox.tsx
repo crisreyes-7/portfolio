@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { createPortal } from "react-dom";
 
 interface LightboxProps {
   src: string;
@@ -11,6 +12,9 @@ interface LightboxProps {
 export default function Lightbox({ src, alt, className = "w-full h-auto" }: LightboxProps) {
   const [open, setOpen] = useState(false);
   const [visible, setVisible] = useState(false);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => { setMounted(true); }, []);
 
   function openLightbox() {
     setOpen(true);
@@ -37,7 +41,7 @@ export default function Lightbox({ src, alt, className = "w-full h-auto" }: Ligh
         className={`${className} cursor-zoom-in transition-transform duration-300 hover:scale-[1.02]`}
         onClick={openLightbox}
       />
-      {open && (
+      {mounted && open && createPortal(
         <div
           className="fixed inset-0 z-50 flex items-center justify-center p-4"
           style={{
@@ -65,7 +69,8 @@ export default function Lightbox({ src, alt, className = "w-full h-auto" }: Ligh
           >
             ✕
           </button>
-        </div>
+        </div>,
+        document.body
       )}
     </>
   );

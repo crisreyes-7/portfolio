@@ -181,19 +181,11 @@ New component ported from React Bits. Lives in `components/GradualBlur.tsx` + `c
 
 Reworked the home Hero into a "vibrant sky" scene with the existing Twitter-card content floating on top as liquid glass.
 
-### Sky cycle
-- Animated CSS gradient on `.hero-sky` running on a 120s loop.
-- Phases: morning peach → midday vibrant blue (longest hold) → golden mauve/orange → night deep navy (second-longest hold) → loop.
-- Keyframes deliberately use minimal hold percentages so the bulk of the cycle is crossfade — `0%/8%, 30%/50%, 65%, 78%/92%, 100%`. If you want even smoother fades, drop the duplicate hold percentages entirely.
-- `--hero-ink`, `--hero-ink-muted`, `--hero-ink-faint` are declared via `@property` and animated by `hero-text-cycle` on the same 120s clock so all card text inverts to light during the night phase. Card text uses inline `style={{ color: "var(--hero-ink)" }}` rather than Tailwind classes because Tailwind v4 arbitrary `text-[var(...)]` values work but are noisier — inline reads cleaner here.
-
-### Clouds
-- Five cumulus puffs drifting via three speeds: `cloud-slow` (140s), `cloud-medium` (95s), `cloud-fast` (65s) — only slow + medium are used now.
-- `PuffyCloud` component renders 5–6 overlapping circles + a base ellipse, then runs them through:
-  - `feTurbulence` (fractal noise) → `feDisplacementMap` for organic, irregular edges. Three filter variants (`cloud-organic-1/2/3`) with different seeds and frequencies.
-  - Radial gradient fill (`#ffffff` top → `#c9d4e3` bottom edges) for soft volumetric shading.
-- Each cloud is wrapped in a `.cloud-breathe` inner div that scales `1.0 → 1.05 → 1.0` over 18s with staggered delays so they puff while drifting. Drift transform is on the outer `.cloud`, breathe transform is on the inner div — keeps them composable.
-- Three silhouette templates (`wide`, `tall`, `stretched`) for shape variety.
+### Background (Vanta.js Clouds)
+- The hero background has been upgraded to a dynamic 3D volumetric cloud effect powered by **Vanta.js** and **Three.js**.
+- Initialized dynamically via `await import()` inside a `useEffect` to safely run on the client-side and avoid Next.js Server-Side Rendering (SSR) issues with `window` objects.
+- The clouds respond interactively to mouse/touch controls and cover the full `<section>` bounds.
+- The legacy CSS-driven `hero-cycle` animations and static drifting `.cloud` DOM elements have been cleanly stripped out to ensure optimal performance and eliminate visual conflicts.
 
 ### Liquid glass card
 - `.liquid-glass` class on the Twitter card. `backdrop-filter: blur(22px) saturate(180%)` + `rgba(255,255,255,0.42)` background + glossy edge shadows.

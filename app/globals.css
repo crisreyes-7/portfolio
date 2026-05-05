@@ -75,126 +75,14 @@ body {
 }
 
 /* ======================================================================
-   Hero sky cycle — morning → midday (longest) → golden → night (long)
-   Total cycle: 120s
-   ====================================================================== */
-
-@property --hero-ink {
-  syntax: "<color>";
-  initial-value: #0f0f0f;
-  inherits: true;
-}
-@property --hero-ink-muted {
-  syntax: "<color>";
-  initial-value: #555555;
-  inherits: true;
-}
-@property --hero-ink-faint {
-  syntax: "<color>";
-  initial-value: #888888;
-  inherits: true;
-}
-@property --glass-bg {
-  syntax: "<color>";
-  initial-value: rgba(255, 255, 255, 0.42);
-  inherits: true;
-}
-@property --glass-border {
-  syntax: "<color>";
-  initial-value: rgba(255, 255, 255, 0.55);
-  inherits: true;
-}
-@property --sky-day-op {
-  syntax: "<number>";
-  initial-value: 1;
-  inherits: true;
-}
-@property --sky-night-op {
-  syntax: "<number>";
-  initial-value: 0;
-  inherits: true;
-}
-
-/* One animation drives sky opacity, text colour, and card tint in lockstep */
-@keyframes hero-cycle {
-  0% {
-    --sky-day-op: 1; --sky-night-op: 0;
-    --hero-ink: #0f0f0f; --hero-ink-muted: #555555; --hero-ink-faint: #888888;
-    --glass-bg: rgba(255, 255, 255, 0.42); --glass-border: rgba(255, 255, 255, 0.55);
-  }
-  43% {
-    --sky-day-op: 1; --sky-night-op: 0;
-    --hero-ink: #0f0f0f; --hero-ink-muted: #555555; --hero-ink-faint: #888888;
-    --glass-bg: rgba(255, 255, 255, 0.42); --glass-border: rgba(255, 255, 255, 0.55);
-    animation-timing-function: cubic-bezier(0.4, 0, 0.6, 1);
-  }
-  50% {
-    --sky-day-op: 0; --sky-night-op: 1;
-    --hero-ink: #fafafa; --hero-ink-muted: #cfd6e4; --hero-ink-faint: #94a0b8;
-    --glass-bg: rgba(0, 0, 0, 0.35); --glass-border: rgba(255, 255, 255, 0.15);
-  }
-  93% {
-    --sky-day-op: 0; --sky-night-op: 1;
-    --hero-ink: #fafafa; --hero-ink-muted: #cfd6e4; --hero-ink-faint: #94a0b8;
-    --glass-bg: rgba(0, 0, 0, 0.35); --glass-border: rgba(255, 255, 255, 0.15);
-    animation-timing-function: cubic-bezier(0.4, 0, 0.6, 1);
-  }
-  100% {
-    --sky-day-op: 1; --sky-night-op: 0;
-    --hero-ink: #0f0f0f; --hero-ink-muted: #555555; --hero-ink-faint: #888888;
-    --glass-bg: rgba(255, 255, 255, 0.42); --glass-border: rgba(255, 255, 255, 0.55);
-  }
-}
-
-/* Bottom fade — blend sky + clouds into the white page beneath */
-.hero-bg-layer {
-  -webkit-mask-image: linear-gradient(to bottom, black 0%, black 55%, transparent 100%);
-  mask-image: linear-gradient(to bottom, black 0%, black 55%, transparent 100%);
-}
-
-.hero-sky-layer { position: absolute; inset: 0; }
-.hero-sky-day   { background: linear-gradient(180deg, #4285ec 0%, #8cb8ce 50%, #c2d8e0 100%); opacity: var(--sky-day-op); }
-.hero-sky-night { background: linear-gradient(180deg, #19124c 0%, #352eb3 50%, #bc89e8 100%); opacity: var(--sky-night-op); }
-
-.hero-cycle-text {
-  animation: hero-cycle 30s linear infinite;
-}
-
-/* Cloud drift */
-@keyframes drift {
-  from { transform: translate3d(-30vw, 0, 0); }
-  to   { transform: translate3d(120vw, 0, 0); }
-}
-.cloud {
-  position: absolute;
-  pointer-events: none;
-  will-change: transform;
-}
-.cloud-slow   { animation: drift 140s linear infinite; }
-.cloud-medium { animation: drift  95s linear infinite; }
-.cloud-fast   { animation: drift  65s linear infinite; }
-
-/* Subtle breathing scale to keep clouds feeling alive */
-@keyframes cloud-breathe {
-  0%, 100% { transform: scale(1); }
-  50%      { transform: scale(1.05); }
-}
-.cloud-breathe {
-  animation: cloud-breathe 18s ease-in-out infinite;
-  transform-origin: 50% 50%;
-  display: block;
-  will-change: transform;
-}
-
-/* ======================================================================
    Liquid glass card — heavy backdrop blur + corner refraction glints
    ====================================================================== */
 .liquid-glass {
   position: relative;
-  background: var(--glass-bg);
+  background: rgba(255, 255, 255, 0.42);
   backdrop-filter: blur(22px) saturate(180%);
   -webkit-backdrop-filter: blur(22px) saturate(180%);
-  border: 1px solid var(--glass-border);
+  border: 1px solid rgba(255, 255, 255, 0.55);
   border-radius: 24px;
   box-shadow:
     0 12px 48px rgba(15, 30, 60, 0.18),

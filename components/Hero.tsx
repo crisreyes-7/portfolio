@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import Image from "next/image";
 
 function CheckBadge() {
@@ -22,23 +22,127 @@ function CheckBadge() {
 }
 
 
-function CloudPhoto({ src, width, opacity }: {
-  src: string;
-  width: number;
-  opacity: number;
-}) {
-  return (
-    <img
-      src={src}
-      width={width}
-      alt=""
-      style={{ display: "block", opacity, mixBlendMode: "screen", filter: "url(#clouds-warp)", willChange: "filter" }}
-    />
-  );
-}
 
 export default function Hero() {
   const [toastState, setToastState] = useState<"hidden" | "in" | "out">("hidden");
+  const [vantaEffect, setVantaEffect] = useState<any>(null);
+  const vantaRef = useRef<HTMLDivElement>(null);
+  const heroRef = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    let effect: any;
+    let animationFrameId: number;
+    const cycleDuration = 60000; // 60 seconds total (20s holds, 10s transitions)
+
+    const initVanta = async () => {
+      if (!effect && vantaRef.current) {
+        const THREE = await import("three");
+        // @ts-ignore
+        const VantaClouds = await import("vanta/dist/vanta.clouds.min");
+        const CLOUDS = VantaClouds.default || VantaClouds;
+        
+        // Define Day and Night palettes
+        const day = {
+          backgroundColor: new THREE.Color(0xffffff),
+          skyColor: new THREE.Color(0xc1e9ff), // Requested light cyan-blue
+          cloudColor: new THREE.Color(0xbce2ff), // A brighter, more vibrant pastel blue
+          cloudShadowColor: new THREE.Color(0x316d94),
+          sunColor: new THREE.Color(0xffad22), // Warmer, bright golden-orange
+          sunGlareColor: new THREE.Color(0xff7a33), // Warmer, vibrant orange glare
+          sunlightColor: new THREE.Color(0xffa82b), // Warmer, golden sunlight
+        };
+
+        const night = {
+          backgroundColor: new THREE.Color(0x0),
+          skyColor: new THREE.Color(0x1b1570),
+          cloudColor: new THREE.Color(0xc6c9ff),
+          cloudShadowColor: new THREE.Color(0x42468c), // Brightened nighttime shadows
+          sunColor: new THREE.Color(0xb8bafc),
+          sunGlareColor: new THREE.Color(0xc9d8fc),
+          sunlightColor: new THREE.Color(0xd6cefc),
+        };
+        
+        effect = CLOUDS({
+          el: vantaRef.current,
+          THREE: THREE,
+          mouseControls: true,
+          touchControls: true,
+          gyroControls: false,
+          minHeight: 200.00,
+          minWidth: 200.00,
+          backgroundColor: day.backgroundColor.getHex(),
+          skyColor: day.skyColor.getHex(),
+          cloudColor: day.cloudColor.getHex(),
+          cloudShadowColor: day.cloudShadowColor.getHex(),
+          sunColor: day.sunColor.getHex(),
+          sunGlareColor: day.sunGlareColor.getHex(),
+          sunlightColor: day.sunlightColor.getHex(),
+        });
+        setVantaEffect(effect);
+
+        const startTime = Date.now();
+        const currentColor = new THREE.Color();
+
+        const animateColors = () => {
+          const now = Date.now();
+          const t = (now - startTime) % cycleDuration;
+          
+          let progress = 0;
+          if (t < 20000) {
+            // Day hold (0-20s)
+            progress = 0;
+          } else if (t < 30000) {
+            // Transition Day to Night (20s-30s)
+            const p = (t - 20000) / 10000;
+            progress = p * p * (3 - 2 * p); // smoothstep easing
+          } else if (t < 50000) {
+            // Night hold (30s-50s)
+            progress = 1;
+          } else {
+            // Transition Night to Day (50s-60s)
+            const p = (t - 50000) / 10000;
+            progress = 1 - (p * p * (3 - 2 * p)); // smoothstep easing
+          }
+          
+          effect.setOptions({
+            backgroundColor: currentColor.copy(day.backgroundColor).lerp(night.backgroundColor, progress).getHex(),
+            skyColor: currentColor.copy(day.skyColor).lerp(night.skyColor, progress).getHex(),
+            cloudColor: currentColor.copy(day.cloudColor).lerp(night.cloudColor, progress).getHex(),
+            cloudShadowColor: currentColor.copy(day.cloudShadowColor).lerp(night.cloudShadowColor, progress).getHex(),
+            sunColor: currentColor.copy(day.sunColor).lerp(night.sunColor, progress).getHex(),
+            sunGlareColor: currentColor.copy(day.sunGlareColor).lerp(night.sunGlareColor, progress).getHex(),
+            sunlightColor: currentColor.copy(day.sunlightColor).lerp(night.sunlightColor, progress).getHex(),
+          });
+
+          if (heroRef.current) {
+            // Day: White text -> Night: Dark text
+            heroRef.current.style.setProperty('--hero-ink', new THREE.Color(0xfafafa).lerp(new THREE.Color(0x0f0f0f), progress).getStyle());
+            heroRef.current.style.setProperty('--hero-ink-muted', new THREE.Color(0xcfd6e4).lerp(new THREE.Color(0x555555), progress).getStyle());
+            heroRef.current.style.setProperty('--hero-ink-faint', new THREE.Color(0x94a0b8).lerp(new THREE.Color(0x888888), progress).getStyle());
+            
+            // Day: Dark tint (0, 0.35) -> Night: White tint (255, 0.42)
+            const glassA = 0.35 + (0.42 - 0.35) * progress;
+            const glassRGB = Math.round(255 * progress);
+            heroRef.current.style.setProperty('--glass-bg', `rgba(${glassRGB}, ${glassRGB}, ${glassRGB}, ${glassA})`);
+
+            // Day: Faint border (0.15) -> Night: Strong border (0.55)
+            const borderA = 0.15 + (0.55 - 0.15) * progress;
+            heroRef.current.style.setProperty('--glass-border', `rgba(255, 255, 255, ${borderA})`);
+          }
+
+          animationFrameId = requestAnimationFrame(animateColors);
+        };
+
+        animateColors();
+      }
+    };
+    initVanta();
+
+    return () => {
+      cancelAnimationFrame(animationFrameId);
+      if (effect) effect.destroy();
+    };
+  }, []);
 
   useEffect(() => {
     let outTimer: ReturnType<typeof setTimeout>;
@@ -68,46 +172,9 @@ export default function Hero() {
   }, []);
 
   return (
-    <section className="hero-cycle-text relative min-h-screen overflow-hidden">
-      {/* Sky + clouds — both fade out toward the bottom of the hero */}
-      <div className="hero-bg-layer absolute inset-0" aria-hidden="true">
-        <div className="hero-sky-layer hero-sky-day" />
-        <div className="hero-sky-layer hero-sky-night" />
-
-        {/* Drifting real cloud photos — single filter on container */}
-        <div className="absolute inset-0 pointer-events-none">
-          {/* w=440, close → 80s */}
-          <div className="cloud cloud-slow" style={{ top: "8%", animationDuration: "80s" }}>
-            <div className="cloud-breathe">
-              <CloudPhoto src="/assets/cloudsCloud-1.png" width={440} opacity={0.95} />
-            </div>
-          </div>
-          {/* w=360, far → 160s */}
-          <div className="cloud cloud-slow" style={{ top: "22%", animationDelay: "-30s", animationDuration: "160s" }}>
-            <div className="cloud-breathe" style={{ animationDelay: "-4s" }}>
-              <CloudPhoto src="/assets/cloudsCloud-4.png" width={360} opacity={0.85} />
-            </div>
-          </div>
-          {/* w=520, closest → 65s */}
-          <div className="cloud cloud-slow" style={{ top: "38%", animationDelay: "-65s", animationDuration: "65s" }}>
-            <div className="cloud-breathe" style={{ animationDelay: "-9s" }}>
-              <CloudPhoto src="/assets/cloudsCloud-7.png" width={520} opacity={0.9} />
-            </div>
-          </div>
-          {/* w=400, mid → 115s */}
-          <div className="cloud cloud-slow" style={{ top: "54%", animationDelay: "-12s", animationDuration: "115s" }}>
-            <div className="cloud-breathe" style={{ animationDelay: "-2s" }}>
-              <CloudPhoto src="/assets/cloudsCloud-3.png" width={400} opacity={0.8} />
-            </div>
-          </div>
-          {/* w=300, furthest → 200s */}
-          <div className="cloud cloud-slow" style={{ top: "16%", animationDelay: "-90s", animationDuration: "200s" }}>
-            <div className="cloud-breathe" style={{ animationDelay: "-13s" }}>
-              <CloudPhoto src="/assets/cloudsCloud-5.png" width={300} opacity={0.75} />
-            </div>
-          </div>
-        </div>
-      </div>
+    <section ref={heroRef} className="relative min-h-screen overflow-hidden">
+      {/* Vanta Clouds Background */}
+      <div ref={vantaRef} className="absolute inset-0" aria-hidden="true" />
 
       {/* Foreground content */}
       <div className="relative z-10 min-h-screen flex flex-col items-center justify-center pt-14 px-6">
@@ -140,13 +207,13 @@ export default function Hero() {
               <div className="flex items-center gap-1.5">
                 <span
                   className="font-semibold text-lg leading-snug"
-                  style={{ color: "var(--hero-ink)" }}
+                  style={{ color: "var(--hero-ink, #0f0f0f)" }}
                 >
                   Cris Reyes
                 </span>
                 <CheckBadge />
               </div>
-              <span className="text-sm" style={{ color: "var(--hero-ink-faint)" }}>
+              <span className="text-sm" style={{ color: "var(--hero-ink, #0f0f0f)" }}>
                 Designer
               </span>
             </div>
@@ -154,14 +221,14 @@ export default function Hero() {
             {/* Bio */}
             <p
               className="text-[0.9375rem] leading-relaxed"
-              style={{ color: "var(--hero-ink-muted)" }}
+              style={{ color: "var(--hero-ink, #0f0f0f)" }}
             >
               Hey, I&rsquo;m Cristian a design engineer at{" "}
-              <strong className="font-semibold" style={{ color: "var(--hero-ink)" }}>
+              <strong className="font-semibold" style={{ color: "var(--hero-ink, #0f0f0f)" }}>
                 Digital NEST
               </strong>{" "}
               🌿 based in{" "}
-              <strong className="font-semibold" style={{ color: "var(--hero-ink)" }}>
+              <strong className="font-semibold" style={{ color: "var(--hero-ink, #0f0f0f)" }}>
                 Salinas, California
               </strong>{" "}
               🌊 where I specialize in crafting polished web interfaces with a strong
@@ -171,16 +238,15 @@ export default function Hero() {
 
           {/* Email hint below card */}
           <div className="flex items-center gap-2.5">
-            <span className="text-sm" style={{ color: "black" }}>
+            <span className="text-sm text-black">
               Press
             </span>
             <kbd
-              className="inline-flex items-center justify-center w-7 h-7 rounded-lg bg-white/80 backdrop-blur-sm border border-white/60 text-xs font-semibold shadow-[0_1px_0_0_rgba(255,255,255,0.4)]"
-              style={{ color: "black" }}
+              className="inline-flex items-center justify-center w-7 h-7 rounded-lg bg-white/80 backdrop-blur-sm border border-white/60 text-xs font-semibold shadow-[0_1px_0_0_rgba(255,255,255,0.4)] text-black"
             >
               C
             </kbd>
-            <span className="text-sm" style={{ color: "black" }}>
+            <span className="text-sm text-black">
               to copy my email
             </span>
           </div>

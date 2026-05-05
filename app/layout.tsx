@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { GeistSans } from "geist/font/sans";
 import "./globals.css";
+import GradualBlur from "@/components/GradualBlur";
 
 export const metadata: Metadata = {
   title: "Cris Reyes — Design Engineer",
@@ -15,7 +16,18 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className={GeistSans.variable}>
-      <body className="font-sans antialiased">{children}</body>
+      <body className="font-sans antialiased">
+        {children}
+        <GradualBlur
+          position="bottom"
+          height="5rem"
+          strength={1.5}
+          divCount={8}
+          curve="bezier"
+          exponential={true}
+          target="page"
+        />
+      </body>
     </html>
   );
 }

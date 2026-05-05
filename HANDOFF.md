@@ -162,3 +162,63 @@ Added net-new sections without touching any of Cris's existing copy. All filler 
 
 - `main` and `dev` are in sync at the responsive-audit commit.
 - `svaec-polish` is the current working branch with the case study additions and Twitter-timeline cases page. Not yet merged.
+
+---
+
+# Session 2026-05-05 — GradualBlur + animated sky hero
+
+Branch: `feat/gradual-blur` (off `main`). One commit so far (`720cbcb`); the sky/cloud work is uncommitted.
+
+## GradualBlur (page-fixed scroll blur)
+
+New component ported from React Bits. Lives in `components/GradualBlur.tsx` + `components/GradualBlur.css`. Component is fully self-contained (no `mathjs` despite the upstream readme — the math is plain JS).
+
+- Wired into `app/layout.tsx` once, with `target="page"` so it's `position: fixed` at the bottom of the viewport on every route.
+- Current props: `position="bottom"`, `height="5rem"`, `strength={1.5}`, `divCount={8}`, `curve="bezier"`, `exponential={true}`. The exponential curve keeps the middle of the blur soft and punches harder at the very edge.
+- White-on-white kills the visible blur, so this only "works" against pages with content scrolling underneath — fine for this portfolio because every page eventually has content. Don't use `target="parent"` on a section whose visible content area is pure white.
+
+## Animated sky hero (`components/Hero.tsx` + `app/globals.css`)
+
+Reworked the home Hero into a "vibrant sky" scene with the existing Twitter-card content floating on top as liquid glass.
+
+### Sky cycle
+- Animated CSS gradient on `.hero-sky` running on a 120s loop.
+- Phases: morning peach → midday vibrant blue (longest hold) → golden mauve/orange → night deep navy (second-longest hold) → loop.
+- Keyframes deliberately use minimal hold percentages so the bulk of the cycle is crossfade — `0%/8%, 30%/50%, 65%, 78%/92%, 100%`. If you want even smoother fades, drop the duplicate hold percentages entirely.
+- `--hero-ink`, `--hero-ink-muted`, `--hero-ink-faint` are declared via `@property` and animated by `hero-text-cycle` on the same 120s clock so all card text inverts to light during the night phase. Card text uses inline `style={{ color: "var(--hero-ink)" }}` rather than Tailwind classes because Tailwind v4 arbitrary `text-[var(...)]` values work but are noisier — inline reads cleaner here.
+
+### Clouds
+- Five cumulus puffs drifting via three speeds: `cloud-slow` (140s), `cloud-medium` (95s), `cloud-fast` (65s) — only slow + medium are used now.
+- `PuffyCloud` component renders 5–6 overlapping circles + a base ellipse, then runs them through:
+  - `feTurbulence` (fractal noise) → `feDisplacementMap` for organic, irregular edges. Three filter variants (`cloud-organic-1/2/3`) with different seeds and frequencies.
+  - Radial gradient fill (`#ffffff` top → `#c9d4e3` bottom edges) for soft volumetric shading.
+- Each cloud is wrapped in a `.cloud-breathe` inner div that scales `1.0 → 1.05 → 1.0` over 18s with staggered delays so they puff while drifting. Drift transform is on the outer `.cloud`, breathe transform is on the inner div — keeps them composable.
+- Three silhouette templates (`wide`, `tall`, `stretched`) for shape variety.
+
+### Liquid glass card
+- `.liquid-glass` class on the Twitter card. `backdrop-filter: blur(22px) saturate(180%)` + `rgba(255,255,255,0.42)` background + glossy edge shadows.
+- Two pseudo-elements:
+  - `::before` — bright white radial highlights at each corner (`mix-blend-mode: overlay`) for a polished glass shine.
+  - `::after` — chromatic aberration via colored inset shadows at the four corners (red/cyan/blue/yellow). This is the "refraction at corners" effect — fakes light-bending without WebGL/displacement maps (which `backdrop-filter` doesn't reliably support across browsers).
+- Avatar wrapper and `kbd` background are now `bg-white/80 backdrop-blur-sm` so they sit on the sky instead of breaking the glass aesthetic.
+
+### Bottom fade into the page
+- `.hero-bg-layer` wraps sky + clouds and applies `mask-image: linear-gradient(to bottom, black 0%, black 55%, transparent 100%)` so the sky dissolves to transparent over the bottom 45% of the hero, blending into the white Cases section beneath. The card is centered and sits above the fade zone, so it's never in the dissolve region.
+
+### Things to know
+- **Browser support:** `@property` requires Chrome 85+ / Safari 16.4+ / Firefox 128+. Without it the text-color animation just freezes at `initial-value` (still readable, just not animated).
+- **Performance:** Five SVG clouds + drift + breathe + animated gradient is fine on modern hardware but is more GPU than the rest of the site. If issues come up, drop a cloud or two, or remove `cloud-breathe`.
+- **Don't recreate the sky as a fixed background** — it's intentionally absolute inside the hero so it scrolls away naturally with the rest of the page.
+
+## Files touched this session
+
+- `components/GradualBlur.tsx` — new (TypeScript port)
+- `components/GradualBlur.css` — new
+- `app/layout.tsx` — adds `<GradualBlur />` once, page-fixed
+- `components/Hero.tsx` — sky/cloud layers, liquid-glass card, animated text vars
+- `app/globals.css` — `@property` declarations, sky/text/drift/breathe keyframes, `.hero-sky/.hero-bg-layer/.cloud*/.liquid-glass` styles
+
+## Status
+
+- Committed: GradualBlur integration (`720cbcb`).
+- Uncommitted: all sky/cloud/liquid-glass work in `Hero.tsx` + `globals.css`. Worth committing as a second logical change before merging the branch.

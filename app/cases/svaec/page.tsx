@@ -101,7 +101,8 @@ export default function SVAECPage() {
           </h1>
           <p className="text-center text-[#888] text-base mb-6">{cs.category}</p>
 
-          {/* Hero stat strip — quick scannable facts */}
+          {/* Hero stat strip — restore when timeline/sample/scope are known */}
+          {false && (
           <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-2 mb-6 text-sm text-[#555]">
             <span>[FILL IN: e.g. 3-month redesign]</span>
             <span className="text-[#d0d0ce]">·</span>
@@ -109,6 +110,7 @@ export default function SVAECPage() {
             <span className="text-[#d0d0ce]">·</span>
             <span>[FILL IN: e.g. 4 partner schools]</span>
           </div>
+          )}
 
           {/* Live site link */}
           <div className="flex justify-center">
@@ -500,8 +502,9 @@ export default function SVAECPage() {
                   <p>Users can now browse classes visually, see which schools offer them, and quickly jump to
                     the correct enrollment page, all in a logical, step-by-step flow.</p>
                 </div>
+                {/* Video — restore when asset is ready */}
+                {false && (
                 <div className="w-full sm:w-[45%] flex-shrink-0">
-                  {/* Video placeholder — replace with <video> tag when asset is ready */}
                   <div className="w-full rounded-xl bg-[#f5f5f4] border border-[#e8e8e6] flex flex-col items-center justify-center gap-2 py-10">
                     <span className="text-2xl">▶</span>
                     <span className="text-xs text-[#aaa] font-medium text-center px-4">
@@ -509,6 +512,7 @@ export default function SVAECPage() {
                     </span>
                   </div>
                 </div>
+                )}
               </div>
             </CardSection>
           </Card>
@@ -580,7 +584,8 @@ export default function SVAECPage() {
         <div className="max-w-[760px] mx-auto">
           <SectionLabel>[Results]</SectionLabel>
           <Card>
-            {/* Metrics row — top of the card for quick scanning */}
+            {/* Metrics row — restore when outcome numbers are known */}
+            {false && (
             <CardSection>
               <p className="text-xs font-semibold text-[#888] mb-4">[Outcomes]</p>
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
@@ -596,6 +601,7 @@ export default function SVAECPage() {
                 ))}
               </div>
             </CardSection>
+            )}
             <CardSection>
               <p className="font-bold text-base text-[#0f0f0f] mb-3">Impact in Action</p>
               <div className="flex flex-col gap-3 text-sm text-[#555] leading-relaxed mb-6">
@@ -626,7 +632,8 @@ export default function SVAECPage() {
         </div>
       </section>
 
-      {/* ── Reflections ── */}
+      {/* ── Reflections — restore when content is ready ── */}
+      {false && (
       <section className="px-6 pb-16">
         <div className="max-w-[760px] mx-auto">
           <SectionLabel>[Reflections]</SectionLabel>
@@ -652,6 +659,7 @@ export default function SVAECPage() {
           </Card>
         </div>
       </section>
+      )}
 
       {/* ── Back to cases ── */}
       <section className="px-6 pb-20">

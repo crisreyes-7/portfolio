@@ -3,6 +3,10 @@
 import { useEffect, useState, useRef } from "react";
 import Image from "next/image";
 
+const CSS_INK    = "--hero-ink";
+const CSS_GLASS  = "--glass-bg";
+const CSS_BORDER = "--glass-border";
+
 function CheckBadge() {
   return (
     <svg
@@ -29,114 +33,125 @@ export default function Hero() {
   useEffect(() => {
     let effect: any;
     let animationFrameId: number;
-    const cycleDuration = 60000; // 60s total: 20s day hold, 10s transition, 20s night hold, 10s transition
+    let cancelled = false;
+    const cycleDuration = 60000;
 
     const initVanta = async () => {
-      if (!effect && vantaRef.current) {
-        const THREE = await import("three");
-        // @ts-expect-error — no types for vanta
-        const VantaClouds = await import("vanta/dist/vanta.clouds.min");
-        const CLOUDS = VantaClouds.default || VantaClouds;
+      if (!vantaRef.current) return;
 
-        // Day and Night color palettes
-        const day = {
-          backgroundColor: new THREE.Color(0xffffff),
-          skyColor:        new THREE.Color(0xc1e9ff),
-          cloudColor:      new THREE.Color(0xbce2ff),
-          cloudShadowColor:new THREE.Color(0x316d94),
-          sunColor:        new THREE.Color(0xffad22),
-          sunGlareColor:   new THREE.Color(0xff7a33),
-          sunlightColor:   new THREE.Color(0xffa82b),
-        };
+      // @ts-expect-error — no types for vanta
+      const [THREE, VantaClouds] = await Promise.all([
+        import("three"),
+        import("vanta/dist/vanta.clouds.min"),
+      ]);
 
-        const night = {
-          backgroundColor: new THREE.Color(0x000000),
-          skyColor:        new THREE.Color(0x1b1570),
-          cloudColor:      new THREE.Color(0xc6c9ff),
-          cloudShadowColor:new THREE.Color(0x42468c),
-          sunColor:        new THREE.Color(0xb8bafc),
-          sunGlareColor:   new THREE.Color(0xc9d8fc),
-          sunlightColor:   new THREE.Color(0xd6cefc),
-        };
+      if (cancelled) return;
 
-        // Pre-allocate reusable colors — avoids GC pressure from per-frame allocations
-        const inkDay   = new THREE.Color(0xfafafa);
-        const inkNight = new THREE.Color(0x0f0f0f);
-        const scratch  = new THREE.Color();
+      const CLOUDS = VantaClouds.default || VantaClouds;
 
-        effect = CLOUDS({
-          el: vantaRef.current,
-          THREE,
-          mouseControls: true,
-          touchControls: true,
-          gyroControls: false,
-          minHeight: 200,
-          minWidth: 200,
-          backgroundColor:  day.backgroundColor.getHex(),
-          skyColor:         day.skyColor.getHex(),
-          cloudColor:       day.cloudColor.getHex(),
-          cloudShadowColor: day.cloudShadowColor.getHex(),
-          sunColor:         day.sunColor.getHex(),
-          sunGlareColor:    day.sunGlareColor.getHex(),
-          sunlightColor:    day.sunlightColor.getHex(),
-        });
+      const day = {
+        backgroundColor: new THREE.Color(0xffffff),
+        skyColor:        new THREE.Color(0xc1e9ff),
+        cloudColor:      new THREE.Color(0xbce2ff),
+        cloudShadowColor:new THREE.Color(0x316d94),
+        sunColor:        new THREE.Color(0xffad22),
+        sunGlareColor:   new THREE.Color(0xff7a33),
+        sunlightColor:   new THREE.Color(0xffa82b),
+      };
 
-        const startTime = Date.now();
+      const night = {
+        backgroundColor: new THREE.Color(0x000000),
+        skyColor:        new THREE.Color(0x1b1570),
+        cloudColor:      new THREE.Color(0xc6c9ff),
+        cloudShadowColor:new THREE.Color(0x42468c),
+        sunColor:        new THREE.Color(0xb8bafc),
+        sunGlareColor:   new THREE.Color(0xc9d8fc),
+        sunlightColor:   new THREE.Color(0xd6cefc),
+      };
 
-        const animateColors = () => {
-          const t = (Date.now() - startTime) % cycleDuration;
+      // Pre-allocate reusable colors — avoids GC pressure from per-frame allocations
+      const inkDay    = new THREE.Color(0xfafafa);
+      const inkNight  = new THREE.Color(0x0f0f0f);
+      const scratch   = new THREE.Color();
+      const inkScratch = new THREE.Color();
 
-          // Piecewise: hold Day 20s → transition 10s → hold Night 20s → transition 10s
-          let progress = 0;
-          if (t < 20000) {
-            progress = 0;
-          } else if (t < 30000) {
-            const p = (t - 20000) / 10000;
-            progress = p * p * (3 - 2 * p); // smoothstep
-          } else if (t < 50000) {
-            progress = 1;
-          } else {
-            const p = (t - 50000) / 10000;
-            progress = 1 - p * p * (3 - 2 * p); // smoothstep
-          }
+      const opts = {
+        backgroundColor: 0, skyColor: 0, cloudColor: 0,
+        cloudShadowColor: 0, sunColor: 0, sunGlareColor: 0, sunlightColor: 0,
+      };
 
-          effect.setOptions({
-            backgroundColor:  scratch.copy(day.backgroundColor).lerp(night.backgroundColor, progress).getHex(),
-            skyColor:         scratch.copy(day.skyColor).lerp(night.skyColor, progress).getHex(),
-            cloudColor:       scratch.copy(day.cloudColor).lerp(night.cloudColor, progress).getHex(),
-            cloudShadowColor: scratch.copy(day.cloudShadowColor).lerp(night.cloudShadowColor, progress).getHex(),
-            sunColor:         scratch.copy(day.sunColor).lerp(night.sunColor, progress).getHex(),
-            sunGlareColor:    scratch.copy(day.sunGlareColor).lerp(night.sunGlareColor, progress).getHex(),
-            sunlightColor:    scratch.copy(day.sunlightColor).lerp(night.sunlightColor, progress).getHex(),
-          });
+      effect = CLOUDS({
+        el: vantaRef.current,
+        THREE,
+        mouseControls: true,
+        touchControls: true,
+        gyroControls: false,
+        minHeight: 200,
+        minWidth: 200,
+        backgroundColor:  day.backgroundColor.getHex(),
+        skyColor:         day.skyColor.getHex(),
+        cloudColor:       day.cloudColor.getHex(),
+        cloudShadowColor: day.cloudShadowColor.getHex(),
+        sunColor:         day.sunColor.getHex(),
+        sunGlareColor:    day.sunGlareColor.getHex(),
+        sunlightColor:    day.sunlightColor.getHex(),
+      });
+
+      const startTime = Date.now();
+      let prevProgress = -1;
+
+      const animateColors = () => {
+        const t = (Date.now() - startTime) % cycleDuration;
+
+        let progress = 0;
+        if (t < 20000) {
+          progress = 0;
+        } else if (t < 30000) {
+          const p = (t - 20000) / 10000;
+          progress = p * p * (3 - 2 * p);
+        } else if (t < 50000) {
+          progress = 1;
+        } else {
+          const p = (t - 50000) / 10000;
+          progress = 1 - p * p * (3 - 2 * p);
+        }
+
+        if (progress !== prevProgress) {
+          prevProgress = progress;
+
+          opts.backgroundColor  = scratch.copy(day.backgroundColor).lerp(night.backgroundColor, progress).getHex();
+          opts.skyColor         = scratch.copy(day.skyColor).lerp(night.skyColor, progress).getHex();
+          opts.cloudColor       = scratch.copy(day.cloudColor).lerp(night.cloudColor, progress).getHex();
+          opts.cloudShadowColor = scratch.copy(day.cloudShadowColor).lerp(night.cloudShadowColor, progress).getHex();
+          opts.sunColor         = scratch.copy(day.sunColor).lerp(night.sunColor, progress).getHex();
+          opts.sunGlareColor    = scratch.copy(day.sunGlareColor).lerp(night.sunGlareColor, progress).getHex();
+          opts.sunlightColor    = scratch.copy(day.sunlightColor).lerp(night.sunlightColor, progress).getHex();
+          effect.setOptions(opts);
 
           if (heroRef.current) {
-            // Text: Day = white, Night = near-black
-            heroRef.current.style.setProperty(
-              "--hero-ink",
-              scratch.copy(inkDay).lerp(inkNight, progress).getStyle()
-            );
+            heroRef.current.style.setProperty(CSS_INK, inkScratch.copy(inkDay).lerp(inkNight, progress).getStyle());
 
-            // Card: Day = dark tint → Night = white tint
             const glassA   = 0.35 + 0.07 * progress;
             const glassRGB = Math.round(255 * progress);
-            heroRef.current.style.setProperty("--glass-bg", `rgba(${glassRGB},${glassRGB},${glassRGB},${glassA})`);
-
-            // Border: Day = subtle → Night = bright
-            const borderA = 0.15 + 0.40 * progress;
-            heroRef.current.style.setProperty("--glass-border", `rgba(255,255,255,${borderA})`);
+            heroRef.current.style.setProperty(CSS_GLASS, `rgba(${glassRGB},${glassRGB},${glassRGB},${glassA})`);
+            heroRef.current.style.setProperty(CSS_BORDER, `rgba(255,255,255,${(0.15 + 0.40 * progress).toFixed(3)})`);
           }
+        }
 
-          animationFrameId = requestAnimationFrame(animateColors);
-        };
+        animationFrameId = requestAnimationFrame(animateColors);
+      };
 
-        animateColors();
-      }
+      animateColors();
+
+      const onResize = () => effect?.resize();
+      window.addEventListener("resize", onResize);
+      return () => window.removeEventListener("resize", onResize);
     };
 
     initVanta();
 
     return () => {
+      cancelled = true;
       cancelAnimationFrame(animationFrameId);
       if (effect) effect.destroy();
     };
@@ -170,7 +185,7 @@ export default function Hero() {
   }, []);
 
   return (
-    <section ref={heroRef} className="relative min-h-screen overflow-hidden">
+    <section ref={heroRef} className="relative min-h-[70svh] md:min-h-screen overflow-hidden">
       {/* Vanta Clouds Background — fallback gradient shows until WebGL loads */}
       <div
         ref={vantaRef}
@@ -186,60 +201,43 @@ export default function Hero() {
       />
 
       {/* Foreground content */}
-      <div className="relative z-10 min-h-screen flex flex-col items-center justify-center pt-14 px-6">
+      <div className="relative z-10 min-h-[70svh] md:min-h-screen flex flex-col items-center justify-center pt-6 md:pt-14 px-6">
         <div className="w-full max-w-[760px] flex flex-col items-center gap-5">
 
           {/* Tweet card — liquid glass */}
-          <div className="liquid-glass w-full p-6 md:p-8">
+          <div className="liquid-glass w-full p-6 md:p-8" style={{ color: `var(${CSS_INK}, #0f0f0f)` }}>
 
-            {/* Avatar row */}
-            <div className="mb-5">
-              <div className="relative inline-block">
-                <div className="w-14 h-14 rounded-xl overflow-hidden border border-white/60 bg-white/80 flex items-center justify-center p-1 backdrop-blur-sm">
-                  <Image
-                    src="https://framerusercontent.com/images/l7C4iE4BN6f4m1NhoOvRjV4DA.png"
-                    alt="Cris Reyes avatar"
-                    width={56}
-                    height={56}
-                    className="max-w-full max-h-full w-auto h-auto object-contain"
-                    priority
-                    unoptimized
-                  />
-                </div>
-                {/* Online dot */}
-                <span className="absolute -bottom-0.5 -right-0.5 w-3.5 h-3.5 rounded-full bg-green-500 border-2 border-white" />
+            {/* Avatar */}
+            <div className="relative inline-block mb-5">
+              <div className="w-14 h-14 rounded-xl overflow-hidden border border-white/60 bg-white/80 flex items-center justify-center p-1 backdrop-blur-sm">
+                <Image
+                  src="https://framerusercontent.com/images/l7C4iE4BN6f4m1NhoOvRjV4DA.png"
+                  alt="Cris Reyes avatar"
+                  width={56}
+                  height={56}
+                  className="max-w-full max-h-full w-auto h-auto object-contain"
+                  priority
+                  unoptimized
+                />
               </div>
+              <span className="absolute -bottom-0.5 -right-0.5 w-3.5 h-3.5 rounded-full bg-green-500 border-2 border-white" />
             </div>
 
             {/* Name + verified */}
             <div className="flex flex-col gap-0.5 mb-4">
               <div className="flex items-center gap-1.5">
-                <span
-                  className="font-semibold text-lg leading-snug"
-                  style={{ color: "var(--hero-ink, #0f0f0f)" }}
-                >
-                  Cris Reyes
-                </span>
+                <span className="font-semibold text-lg leading-snug">Cris Reyes</span>
                 <CheckBadge />
               </div>
-              <span className="text-sm" style={{ color: "var(--hero-ink, #0f0f0f)" }}>
-                Designer
-              </span>
+              <span className="text-sm">Designer</span>
             </div>
 
             {/* Bio */}
-            <p
-              className="text-[0.9375rem] leading-relaxed"
-              style={{ color: "var(--hero-ink, #0f0f0f)" }}
-            >
+            <p className="text-[0.9375rem] leading-relaxed">
               Hey, I&rsquo;m Cristian a design engineer at{" "}
-              <strong className="font-semibold" style={{ color: "var(--hero-ink, #0f0f0f)" }}>
-                Digital NEST
-              </strong>{" "}
+              <strong className="font-semibold">Digital NEST</strong>{" "}
               🌿 based in{" "}
-              <strong className="font-semibold" style={{ color: "var(--hero-ink, #0f0f0f)" }}>
-                Salinas, California
-              </strong>{" "}
+              <strong className="font-semibold">Salinas, California</strong>{" "}
               🌊 where I specialize in crafting polished web interfaces with a strong
               focus on accessibility, web animation, and product design.
             </p>

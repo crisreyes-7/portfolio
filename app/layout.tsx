@@ -1,11 +1,7 @@
-import type { Metadata, Viewport } from "next";
+import type { Metadata } from "next";
 import { GeistSans } from "geist/font/sans";
 import "./globals.css";
 
-
-export const viewport: Viewport = {
-  viewportFit: "cover",
-};
 
 export const metadata: Metadata = {
   title: "Cris Reyes — Design Engineer",

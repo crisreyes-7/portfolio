@@ -74,14 +74,6 @@ body {
   animation-play-state: paused;
 }
 
-/* Safe-area-aware top padding — falls back to 1.5rem on non-notched devices */
-.pt-safe {
-  padding-top: max(env(safe-area-inset-top, 0px), 1.5rem);
-}
-@media (min-width: 768px) {
-  .pt-safe { padding-top: 3.5rem; }
-}
-
 /* ======================================================================
    Liquid glass card — heavy backdrop blur + corner refraction glints
    ====================================================================== */

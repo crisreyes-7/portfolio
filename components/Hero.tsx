@@ -185,7 +185,7 @@ export default function Hero() {
   }, []);
 
   return (
-    <section ref={heroRef} className="relative min-h-[70dvh] md:min-h-[100dvh] overflow-hidden">
+    <section ref={heroRef} className="relative min-h-screen overflow-hidden">
       {/* Vanta Clouds Background — fallback gradient shows until WebGL loads */}
       <div
         ref={vantaRef}
@@ -201,7 +201,7 @@ export default function Hero() {
       />
 
       {/* Foreground content */}
-      <div className="relative z-10 min-h-[70dvh] md:min-h-[100dvh] flex flex-col items-center justify-center pt-safe px-6">
+      <div className="relative z-10 min-h-screen flex flex-col items-center justify-center pt-14 px-6">
         <div className="w-full max-w-[760px] flex flex-col items-center gap-5">
 
           {/* Tweet card — liquid glass */}

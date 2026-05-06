@@ -39,9 +39,9 @@ export default function Hero() {
     const initVanta = async () => {
       if (!vantaRef.current) return;
 
-      // @ts-expect-error — no types for vanta
       const [THREE, VantaClouds] = await Promise.all([
         import("three"),
+        // @ts-expect-error — no types for vanta
         import("vanta/dist/vanta.clouds.min"),
       ]);
 

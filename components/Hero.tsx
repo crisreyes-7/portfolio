@@ -40,7 +40,7 @@ export default function Hero() {
         // @ts-ignore
         const VantaClouds = await import("vanta/dist/vanta.clouds.min");
         const CLOUDS = VantaClouds.default || VantaClouds;
-        
+
         // Define Day and Night palettes
         const day = {
           backgroundColor: new THREE.Color(0xffffff),
@@ -61,7 +61,7 @@ export default function Hero() {
           sunGlareColor: new THREE.Color(0xc9d8fc),
           sunlightColor: new THREE.Color(0xd6cefc),
         };
-        
+
         effect = CLOUDS({
           el: vantaRef.current,
           THREE: THREE,
@@ -86,7 +86,7 @@ export default function Hero() {
         const animateColors = () => {
           const now = Date.now();
           const t = (now - startTime) % cycleDuration;
-          
+
           let progress = 0;
           if (t < 20000) {
             // Day hold (0-20s)
@@ -103,7 +103,7 @@ export default function Hero() {
             const p = (t - 50000) / 10000;
             progress = 1 - (p * p * (3 - 2 * p)); // smoothstep easing
           }
-          
+
           effect.setOptions({
             backgroundColor: currentColor.copy(day.backgroundColor).lerp(night.backgroundColor, progress).getHex(),
             skyColor: currentColor.copy(day.skyColor).lerp(night.skyColor, progress).getHex(),
@@ -119,7 +119,7 @@ export default function Hero() {
             heroRef.current.style.setProperty('--hero-ink', new THREE.Color(0xfafafa).lerp(new THREE.Color(0x0f0f0f), progress).getStyle());
             heroRef.current.style.setProperty('--hero-ink-muted', new THREE.Color(0xcfd6e4).lerp(new THREE.Color(0x555555), progress).getStyle());
             heroRef.current.style.setProperty('--hero-ink-faint', new THREE.Color(0x94a0b8).lerp(new THREE.Color(0x888888), progress).getStyle());
-            
+
             // Day: Dark tint (0, 0.35) -> Night: White tint (255, 0.42)
             const glassA = 0.35 + (0.42 - 0.35) * progress;
             const glassRGB = Math.round(255 * progress);
@@ -173,8 +173,19 @@ export default function Hero() {
 
   return (
     <section ref={heroRef} className="relative min-h-screen overflow-hidden">
-      {/* Vanta Clouds Background */}
-      <div ref={vantaRef} className="absolute inset-0" aria-hidden="true" />
+      {/* Vanta Clouds Background with a daytime fallback gradient */}
+      <div
+        ref={vantaRef}
+        className="absolute inset-0 bg-gradient-to-b from-[#c1e9ff] to-[#ffffff]"
+        aria-hidden="true"
+      />
+
+      {/* Bottom fade — fades Vanta into the page background */}
+      <div
+        className="absolute bottom-0 left-0 right-0 h-48 pointer-events-none"
+        style={{ background: "linear-gradient(to bottom, transparent 0%, #ffffff 100%)" }}
+        aria-hidden="true"
+      />
 
       {/* Foreground content */}
       <div className="relative z-10 min-h-screen flex flex-col items-center justify-center pt-14 px-6">

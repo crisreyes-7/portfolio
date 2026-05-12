@@ -5,7 +5,7 @@ import CtaLink from "./CtaLink";
 const cases = [
   {
     href: "/cases/svaec",
-    image: "https://framerusercontent.com/images/iF4cd4YieKCtECojDL4qMFzeoJ0.png",
+    image: "/svaec/case-thumbnail.webp",
     alt: "Salinas Valley Adult Education Consortium project",
     category: "Web/UX Design",
     title: "Salinas Valley Adult Education Consortium",

@@ -17,12 +17,11 @@ export default function About() {
             <div className="w-full sm:w-[45%] flex-shrink-0">
               <div className="relative rounded-xl overflow-hidden min-h-[360px] sm:min-h-[466px]">
                 <Image
-                  src="https://framerusercontent.com/images/KArwdjFBUNCFO05OGNUXhQCnzw.jpg"
+                  src="/assets/about-photo.webp"
                   alt="Photo of Cris Reyes"
                   fill
                   sizes="(max-width: 640px) 100vw, 45vw"
                   className="object-cover object-top"
-                  unoptimized
                 />
                 {/* Marquee — bottom-right using corner.png as the container shape */}
                 <div className="absolute bottom-0 right-0 w-[90%]">

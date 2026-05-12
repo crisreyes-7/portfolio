@@ -17,7 +17,7 @@ type Case = {
 const cases: Case[] = [
   {
     href: "/cases/svaec",
-    image: "https://framerusercontent.com/images/iF4cd4YieKCtECojDL4qMFzeoJ0.png",
+    image: "/svaec/case-thumbnail.webp",
     category: "Web/UX Design",
     title: "Salinas Valley Adult Education Consortium",
     description:
@@ -99,12 +99,11 @@ function CaseTweet({ c }: { c: Case }) {
           <div className="flex-shrink-0">
             <div className="w-12 h-12 rounded-xl overflow-hidden border border-[#e8e8e6] bg-white flex items-center justify-center p-1">
               <Image
-                src="https://framerusercontent.com/images/l7C4iE4BN6f4m1NhoOvRjV4DA.png"
+                src="/assets/avatar.webp"
                 alt="Cris Reyes avatar"
                 width={48}
                 height={48}
                 className="max-w-full max-h-full w-auto h-auto object-contain"
-                unoptimized
               />
             </div>
           </div>

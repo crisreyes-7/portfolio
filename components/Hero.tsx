@@ -211,13 +211,12 @@ export default function Hero() {
             <div className="relative inline-block mb-5">
               <div className="w-14 h-14 rounded-xl overflow-hidden border border-white/60 bg-white/80 flex items-center justify-center p-1 backdrop-blur-sm">
                 <Image
-                  src="https://framerusercontent.com/images/l7C4iE4BN6f4m1NhoOvRjV4DA.png"
+                  src="/assets/avatar.webp"
                   alt="Cris Reyes avatar"
                   width={56}
                   height={56}
                   className="max-w-full max-h-full w-auto h-auto object-contain"
                   priority
-                  unoptimized
                 />
               </div>
               <span className="absolute -bottom-0.5 -right-0.5 w-3.5 h-3.5 rounded-full bg-green-500 border-2 border-white" />

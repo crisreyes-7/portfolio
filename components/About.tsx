@@ -46,7 +46,7 @@ export default function About() {
                   <span className="text-[#dc2626] font-medium">Adobe Fellow</span>
                   <span className="text-[#555]">@BizzNEST</span>
                   {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src="/icons/adobeCC.png" alt="Adobe CC" className="w-5 h-5 object-contain rounded-sm" />
+                  <img src="/assets/nestbug.png" alt="Digital NEST" className="w-5 h-5 object-contain rounded-sm" />
                 </p>
               </div>
 

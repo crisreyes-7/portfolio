@@ -9,19 +9,7 @@ const CSS_BORDER = "--glass-border";
 
 function CheckBadge() {
   return (
-    <svg
-      width="20"
-      height="20"
-      viewBox="0 0 24 24"
-      fill="none"
-      aria-label="Verified"
-    >
-      <circle cx="12" cy="12" r="12" fill="#1D9BF0" />
-      <path
-        d="M9.5 16.5L5.5 12.5L6.91 11.09L9.5 13.67L17.09 6.08L18.5 7.5L9.5 16.5Z"
-        fill="white"
-      />
-    </svg>
+    <img src="/assets/varifyicon.png" alt="Verified" width={20} height={20} className="inline-block" />
   );
 }
 
@@ -129,7 +117,10 @@ export default function Hero() {
           effect.setOptions(opts);
 
           if (heroRef.current) {
-            heroRef.current.style.setProperty(CSS_INK, inkScratch.copy(inkDay).lerp(inkNight, progress).getStyle());
+            // Snap ink through the grey zone quickly — avoids grey-on-grey at mid-transition
+            const inkP = Math.max(0, Math.min(1, (progress - 0.35) / 0.30));
+            const inkProgress = inkP * inkP * (3 - 2 * inkP);
+            heroRef.current.style.setProperty(CSS_INK, inkScratch.copy(inkDay).lerp(inkNight, inkProgress).getStyle());
 
             const glassA   = 0.35 + 0.07 * progress;
             const glassRGB = Math.round(255 * progress);
@@ -235,9 +226,9 @@ export default function Hero() {
             <p className="text-[0.9375rem] leading-relaxed">
               Hey, I&rsquo;m Cristian a design engineer at{" "}
               <strong className="font-semibold">Digital NEST</strong>{" "}
-              🌿 based in{" "}
+              <img src="/assets/nestbug.png" alt="Digital NEST" className="inline-block w-6 h-6 align-middle rounded-md" />{" "}based in{" "}
               <strong className="font-semibold">Salinas, California</strong>{" "}
-              🌊 where I specialize in crafting polished web interfaces with a strong
+              <span className="inline-flex items-center justify-center w-6 h-6 align-middle rounded-md bg-[#14531A] text-sm leading-none overflow-hidden">🥬</span>{" "}where I specialize in crafting polished web interfaces with a strong
               focus on accessibility, web animation, and product design.
             </p>
           </div>

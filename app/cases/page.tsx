@@ -46,10 +46,7 @@ export const metadata = {
 
 function CheckBadge() {
   return (
-    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-label="Verified">
-      <circle cx="12" cy="12" r="12" fill="#1D9BF0" />
-      <path d="M9.5 16.5L5.5 12.5L6.91 11.09L9.5 13.67L17.09 6.08L18.5 7.5L9.5 16.5Z" fill="white" />
-    </svg>
+    <img src="/assets/varifyicon.png" alt="Verified" width={16} height={16} className="inline-block" />
   );
 }
 
@@ -135,7 +132,7 @@ function CaseTweet({ c }: { c: Case }) {
           </div>
 
           {/* Stats row */}
-          <div className="flex items-center justify-between text-[#536471] max-w-md">
+          <div className="flex items-center justify-between text-[#536471] w-full">
             <div className="flex items-center gap-1.5 text-[13px] group-hover:text-[#1D9BF0] transition-colors duration-150">
               <StatIcon type="reply" />
               <span>{c.stats.replies}</span>
@@ -173,7 +170,7 @@ export default function CasesPage() {
 
       {/* Header */}
       <section className="pb-8 px-6">
-        <div className="max-w-[600px] mx-auto text-center">
+        <div className="max-w-[760px] mx-auto text-center">
           <h1 className="font-bold tracking-[-0.02em] text-[#0f0f0f] leading-tight text-[clamp(1.75rem,4vw,2.5rem)]">
             Work that opens doors.
           </h1>
@@ -185,7 +182,7 @@ export default function CasesPage() {
 
       {/* Timeline */}
       <section className="pb-16 px-6">
-        <div className="max-w-[600px] mx-auto rounded-2xl border border-[#e8e8e6] overflow-hidden bg-white">
+        <div className="max-w-[760px] mx-auto rounded-2xl border border-[#e8e8e6] overflow-hidden bg-white">
           {/* Sticky tab header (Twitter-style "For you") */}
           <div className="px-7 py-4 border-b border-[#e8e8e6] bg-white/80 backdrop-blur-md">
             <p className="font-bold text-base text-[#0f0f0f]">Latest Work</p>

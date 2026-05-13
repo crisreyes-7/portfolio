@@ -226,7 +226,7 @@ export default function Hero() {
 
             {/* Bio */}
             <p className="text-[0.9375rem] leading-relaxed">
-              Hey, I&rsquo;m Cristian a design engineer at{" "}
+              Hey, I&rsquo;m Cristian a <strong className="font-semibold">design engineer</strong> at{" "}
               <strong className="font-semibold">Digital NEST</strong>{" "}
               <img src="/assets/nestbug.png" alt="Digital NEST" className="inline-block w-6 h-6 align-middle rounded-md" />{" "}based in{" "}
               <strong className="font-semibold">Salinas, California</strong>{" "}

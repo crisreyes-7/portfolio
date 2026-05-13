@@ -7,6 +7,10 @@ export const metadata: Metadata = {
   title: "Cris Reyes — Design Engineer",
   description:
     "Design engineer at Digital NEST specializing in polished web interfaces, accessibility, and product design.",
+  icons: {
+    icon: "/icons/webiconpng.png",
+    apple: "/icons/webiconpng.png",
+  },
 };
 
 export default function RootLayout({

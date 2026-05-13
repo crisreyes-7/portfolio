@@ -6,10 +6,11 @@ import Image from "next/image";
 const CSS_INK    = "--hero-ink";
 const CSS_GLASS  = "--glass-bg";
 const CSS_BORDER = "--glass-border";
+const CSS_ICON_INVERT = "--icon-invert";
 
 function CheckBadge() {
   return (
-    <img src="/assets/varifyicon.png" alt="Verified" width={20} height={20} className="inline-block" />
+    <img src="/assets/varifyicon.png" alt="Verified" width={20} height={20} className="inline-block" style={{ filter: "invert(var(--icon-invert, 0))" }} />
   );
 }
 
@@ -121,6 +122,7 @@ export default function Hero() {
             const inkP = Math.max(0, Math.min(1, (progress - 0.35) / 0.30));
             const inkProgress = inkP * inkP * (3 - 2 * inkP);
             heroRef.current.style.setProperty(CSS_INK, inkScratch.copy(inkDay).lerp(inkNight, inkProgress).getStyle());
+            heroRef.current.style.setProperty(CSS_ICON_INVERT, String(inkProgress));
 
             const glassA   = 0.35 + 0.07 * progress;
             const glassRGB = Math.round(255 * progress);

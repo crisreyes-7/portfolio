@@ -33,7 +33,7 @@ function CaseCard({ c }: { c: Case }) {
   const [visible, setVisible] = useState(false);
   const imgRef = useRef<HTMLAnchorElement>(null);
 
-  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+  const handleMouseMove = (e: React.MouseEvent<HTMLAnchorElement>) => {
     if (!imgRef.current) return;
     const rect = imgRef.current.getBoundingClientRect();
     setPos({ x: e.clientX - rect.left, y: e.clientY - rect.top });

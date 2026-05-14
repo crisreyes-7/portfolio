@@ -10,7 +10,10 @@ const CSS_ICON_INVERT = "--icon-invert";
 
 function CheckBadge() {
   return (
-    <img src="/assets/varifyicon.png" alt="Verified" width={20} height={20} className="inline-block" style={{ filter: "invert(var(--icon-invert, 0))" }} />
+    <span className="inline-block relative" style={{ width: 20, height: 20, verticalAlign: "middle" }}>
+      <img src="/assets/varifyicon.png" alt="Verified" width={20} height={20} className="absolute inset-0" style={{ opacity: "calc(1 - var(--icon-invert, 0))" }} />
+      <img src="/assets/varifyiconnight.png" alt="" width={20} height={20} className="absolute inset-0" style={{ opacity: "var(--icon-invert, 0)" }} />
+    </span>
   );
 }
 

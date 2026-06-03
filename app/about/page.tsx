@@ -3,6 +3,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import ExperienceAccordion from "@/components/ExperienceAccordion";
 import AboutHero from "@/components/AboutHero";
+import SocialProfile from "@/components/SocialProfile";
 
 export const metadata = {
   title: "About — Cris Reyes",
@@ -15,8 +16,11 @@ export default function AboutPage() {
       <Navbar />
       <AboutHero />
 
+      {/* Social profile — Twitter/Instagram-style bio + experience feed */}
+      <SocialProfile />
+
       {/* Page label */}
-      <section className="pt-28 pb-12 sm:py-[100px] px-6">
+      <section className="pt-4 pb-12 px-6">
         <div className="max-w-[760px] mx-auto flex justify-center">
           <span className="text-sm font-medium text-[#0f0f0f]">[About]</span>
         </div>
@@ -73,27 +77,6 @@ export default function AboutPage() {
               />
             </div>
 
-          </div>
-        </div>
-      </section>
-
-      {/* What Can I Do */}
-      <section className="py-16 px-6">
-        <div className="max-w-[760px] mx-auto">
-          <span className="block text-sm font-medium text-[#0f0f0f] mb-8">[What Can I Do]</span>
-          <div className="flex flex-col gap-3">
-            <div className="rounded-2xl bg-[#e8e6e1] px-7 py-6">
-              <h3 className="font-bold text-2xl text-[#1e3a8a] mb-2">Human-Centered Approach</h3>
-              <p className="text-[#555] text-sm leading-relaxed">Designing experiences that prioritize user needs and behaviors.</p>
-            </div>
-            <div className="rounded-2xl bg-[#1e3a8a] px-7 py-6">
-              <h3 className="font-bold text-2xl text-white mb-2">Problem-Solving Expertise</h3>
-              <p className="text-[#cce8f5] text-sm leading-relaxed">Transforming challenges into simple, impactful solutions.</p>
-            </div>
-            <div className="rounded-2xl bg-[#cce8f5] px-7 py-6">
-              <h3 className="font-bold text-2xl text-[#1e3a8a] mb-2">Leadership in Design</h3>
-              <p className="text-[#555] text-sm leading-relaxed">Guiding teams and projects with clarity and vision.</p>
-            </div>
           </div>
         </div>
       </section>

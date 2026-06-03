@@ -2,8 +2,8 @@ import Image from "next/image";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import ExperienceAccordion from "@/components/ExperienceAccordion";
-import AboutHero from "@/components/AboutHero";
 import SocialProfile from "@/components/SocialProfile";
+import SideNav from "@/components/SideNav";
 
 export const metadata = {
   title: "About — Cris Reyes",
@@ -14,9 +14,7 @@ export default function AboutPage() {
   return (
     <main className="bg-white text-[#0f0f0f] overflow-x-hidden">
       <Navbar />
-      <AboutHero />
-
-      {/* Social profile — Twitter/Instagram-style bio + experience feed */}
+      <SideNav />
       <SocialProfile />
 
       {/* Page label */}

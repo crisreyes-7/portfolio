@@ -193,7 +193,7 @@ export default function SocialProfile() {
       <div className="max-w-[760px] mx-auto">
 
         {/* Profile card */}
-        <div className="rounded-3xl border border-[#e8e8e6] shadow-[0_2px_24px_0_rgba(0,0,0,0.06)] overflow-hidden">
+        <div id="home" className="scroll-mt-24 rounded-3xl border border-[#e8e8e6] shadow-[0_2px_24px_0_rgba(0,0,0,0.06)] overflow-hidden">
 
           {/* Banner */}
           <div className="relative h-36 sm:h-44 bg-[#1e3a8a] overflow-hidden">
@@ -248,12 +248,12 @@ export default function SocialProfile() {
         </div>
 
         {/* Bio post */}
-        <div className="mt-6 mb-6">
+        <div id="bio" className="scroll-mt-24 mt-6 mb-6">
           <BioPost />
         </div>
 
         {/* Feed label */}
-        <div className="flex items-center gap-3 mt-6 mb-5">
+        <div id="experience" className="scroll-mt-24 flex items-center gap-3 mt-6 mb-5">
           <span className="text-sm font-medium text-[#0f0f0f]">[Experience / Education]</span>
           <div className="flex-1 h-px bg-[#e8e8e6]" />
         </div>
